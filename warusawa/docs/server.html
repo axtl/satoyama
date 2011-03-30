@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>server.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  
+  <table cellspacing=0 cellpadding=0>
+  <thead>
+    <tr>
+      <th class=docs><h1>server.py</h1></th>
+      <th class=code></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id='section-0'>
+      <td class=docs>
+        <div class="octowrap">
+          <a class="octothorpe" href="#section-0">#</a>
+        </div>
+        <p>A web.py application powered by gevent</p>
+<h1>https://bitbucket.org/denis/gevent/src/960ab8d1352f/examples/webpy.py</h1>
+<p>from gevent import monkey
+monkey.patch_all()
+from gevent.wsgi import WSGIServer
+import gevent
+import sys
+import web</p>
+<h1>Setup the appropriate routes for the server</h1>
+<p>urls = ("/", "index")</p>
+<p>class index:</p>
+<h1>GET /</h1>
+<p>def GET(self):
+<pre>return 'Hello, world!'
+</pre></p>
+<h1>Run the application</h1>
+<p>if <strong>name</strong> == "<strong>main</strong>":
+application = web.application(urls, globals()).wsgifunc()
+try:
+sys.stdout.write('Serving on 8088...n')
+sys.stdout.flush()
+WSGIServer(('', 8088), application).serve_forever()
+except KeyboardInterrupt:
+sys.stdout.write("Exiting...n")</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><div class="highlight"><pre>
+
+</pre></div></pre></div>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>

@@ -9,15 +9,18 @@ import gevent
 import sys
 import web
 
+# Setup the appropriate routes for the server
 urls = ("/", "index")
 
 
 class index:
 
+    # GET /
     def GET(self):
         return 'Hello, world!'
 
 
+# Run the application
 if __name__ == "__main__":
     application = web.application(urls, globals()).wsgifunc()
     try:
