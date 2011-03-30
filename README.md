@@ -20,6 +20,12 @@ The *-yama* (mountains) are the server components / back-ends:
 
 The REST API is still in flux.
 
+## Requirements ##
+
+* [node.js](http://nodejs.org/)
+* [libevent](http://monkey.org/~provos/libevent/)
+* [gevent](http://www.gevent.org/)
+* [web.py](http://webpy.org/)
 
 #### (c) alexandru totolici ####
 ##### UBC CPSC 507 Term Project Jan-Apr 2011 #####
