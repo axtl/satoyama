@@ -18,7 +18,7 @@ The *-yama* (mountains) are the server components / back-ends:
 
 ## API ##
 
-The simple [REST API](API.md)
+The simple [REST API](/totolici/satoyama/blob/master/API.md)
 
 ## Requirements ##
 
