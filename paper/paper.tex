@@ -1,9 +1,4 @@
-% paper.tex template - based off template.la from
-% http://www.usenix.org/events/osdi08/cfp/requirements.html
-
-% [final] directive brings in any pictures you have
-% remove or replace with [draft] to suppress that before you're complete if you prefer
-\documentclass[letterpaper,twocolumn,10pt,final]{article}
+\documentclass[letterpaper,twocolumn,10pt,draft]{article}
 \usepackage{style}
 \begin{document}
 
@@ -34,6 +29,17 @@ University of British Columbia\\
 \end{abstract}
 
 \section{\label{sec:intro}Introduction}
+
+% web apps are one of the most popular type of apps
+% universal platform
+% low barrier to entry for users, nothing to install
+% can serve as a hub for native applications later
+
+Web applications have grown to be one of the most popular types of software in use today. The World Wide Web provides a platform that is accessible to users regardless of geographic location or operating system, which were previously some of the main issues affecting the distribution and proliferation of software. Instead, web applications afford rapid development cycles and low economic risks, and are immediately accessible to interested users. There is a significantly lower barrier to adoption as well, as no software must be downloaded, trusted to be free of viruses, or installed by users. Even in situations were native applications are subsequently developed, the availability of a web version is still desirable as it serves both as a hub of activity for the user, and as a way to ensure data is accessible from anywhere, at anytime.
+
+In situations where web developers want to open a service to other applications --- either to spur the growth of a third-party ecosystem, or simply to build multiple native applications for it --- the question of \emph{how} communication should be accomplished is raised. For those developing client applications for a service that they control, it may seem sufficient to come up with a proprietary, custom-built protocol. But the complexity of maintaining such a loosely-defined protocol, especially if multiple applications must use it, would negatively impact developer resources and application quality. It is within the spirit of sane software engineering practice that such a protocol would be designed as an Application Programming Interface (API), and would thus enable components to communicate with one another in a documented and predefined manner. Whether this API is opened to third-party developers or not is not important, as such a decision may be more likely influenced by market forces rather than software engineering considerations.
+
+
 \section{\label{sec:relwork}Related Work}
 \section{\label{sec:arch}Architecture}
 \section{\label{sec:impl}Implementation}
@@ -50,21 +56,21 @@ University of British Columbia\\
 %     % labels make it nice to refer back to figures
 %     \label{fig:figure1}
 % \end{figure}
-% 
+%
 % A trick I sometimes use is to define figs in a separate file (say, \texttt{figures.sty}) and include it in the \texttt{usepackage} directive at the top of the document. Helpful when you have lots of pictures and want to make moving them around easier.
-% 
+%
 % Some embedded literal typeset code might look like the following :
-% 
+%
 % \texttt{
 %     \small\lstinputlisting[language=Python]{code.py}
 % }
-% 
+%
 % \subsubsection*{Suppressing Section Numbers}
-% 
+%
 % % \ldots for ellipsis, don't use three dots - poor spacing.
 % You do so using \texttt{(sub\ldots)section*}
 
-{\footnotesize 
+{\footnotesize
     \bibliographystyle{acm}
     \bibliography{bibliography}}
 
