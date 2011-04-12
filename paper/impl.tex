@@ -1,0 +1,24 @@
+\section{\label{sec:impl}Implementation}
+
+Two server and two client applications were built for this experiment. One of the pairs is built entirely in JavaScript, using \textbf{node.js}~\cite{node} and \textbf{SproutCore}~\cite{sprout} for the server and client components, respectively. The other pair uses a Python back-end, powered by the \textbf{web.py}~\cite{webpy} framework, and a pure HTML front-end. Clients and servers use the API to communicate, and can be mixed in any server-client configuration desired. Table~\ref{tab:comps} lists all the components, their names and functions. Redis~\cite{redis} is used as the data store, as it provides a simple key-value interface that is more than sufficient for the given test scenario.
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{l c c}
+            \toprule
+            & \textbf{JavaScript} & \textbf{Python/HTML} \\
+            \midrule
+            \textbf{Server} & Naka & Warusawa \\
+            \textbf{Client} & Sh\={o}kaku & Hiry\={u}\\
+            \bottomrule
+        \end{tabular}
+        \caption{Server and client components. The first character in each name serves as a mnemonic for the underlying technology, \emph{e.g.} \textbf{N}aka for \textbf{n}ode.js, \textbf{W}arusawa for \textbf{w}eb.py}
+        \label{tab:comps}
+    \end{center}
+\end{table}
+
+\subsection{\label{sec:impl:js}JavaScript}
+
+\subsection{\label{sec:impl:pyhtml}Python \& HTML}
+
+\subsection{\label{sec:impl:redis}Redis}
