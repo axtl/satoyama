@@ -1,96 +1,96 @@
 # API Commands #
 
-*   Return a list of the available papers:
+*   Return a list of the available posts:
 
-        GET /papers/
-
-
-*   Replace the entire paper collection:
-
-        PUT /papers/
+        GET /posts/
 
 
+*   Replace the entire post collection:
 
-*   Create a new paper and return it's URL:
-
-        POST /papers/
+        PUT /posts/
 
 
 
-*   Delete the entire collection of papers:
+*   Create a new post and return it's URL:
 
-        DELETE /papers/
-
-
-
-*   Return the requested paper:
-
-        GET /paper-<id>
+        POST /posts/
 
 
 
-*   Replace/create the specified paper:
+*   Delete the entire collection of posts:
 
-        PUT /paper-<id>
-
-
-
-*   Create a review in the given paper:
-
-        POST /paper-<id>
+        DELETE /posts/
 
 
 
-*   Delete the paper (and all children resources, i.e. reviews):
+*   Return the requested post:
 
-        DELETE /paper-<id>
-
-
-
-*   Return a list of all reviews for the paper:
-
-        GET /paper-<id>/reviews/
+        GET /post-<id>
 
 
 
-*   Replace the collection of reviews:
+*   Replace/create the specified post:
 
-        PUT /paper-<id>/reviews/
-
-
-
-*  Create a new review in the given paper:
-
-        POST /paper-<id>/reviews/
+        PUT /post-<id>
 
 
 
-*   Delete all reviews for the paper:
+*   Update the given post:
 
-        DELETE /paper-<id>/reviews/
-
-
-
-*   Returns the requested review:
-
-        GET /paper-<id>/review-<id>
+        POST /post-<id>
 
 
 
-*   Replace / create the specified review:
+*   Delete the post (and all children resources, i.e. comments):
 
-        PUT /paper-<id>/review-<id>
-
-
-
-*   Update the given review with new content:
-
-        POST /paper-<id>/review-<id>
+        DELETE /post-<id>
 
 
 
-*   Deletes the specified review:
+*   Return a list of all comments for the post:
 
-        DELETE /paper-<id>/review-<id>
+        GET /post-<id>/comments/
+
+
+
+*   Replace the collection of comments:
+
+        PUT /post-<id>/comments/
+
+
+
+*  Create a new comment in the given post:
+
+        POST /post-<id>/comments/
+
+
+
+*   Delete all comments for the post:
+
+        DELETE /post-<id>/comments/
+
+
+
+*   Returns the requested comment:
+
+        GET /post-<id>/comment-<id>
+
+
+
+*   Replace/create the specified comment:
+
+        PUT /post-<id>/comment-<id>
+
+
+
+*   Update the given comment with new content:
+
+        POST /post-<id>/comment-<id>
+
+
+
+*   Deletes the specified comment:
+
+        DELETE /post-<id>/comment-<id>
 
 
