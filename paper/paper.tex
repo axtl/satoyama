@@ -43,15 +43,39 @@ This paper sets out to analyze how an end-to-end JavaScript application compares
 
 \section{\label{sec:arch}Architecture}
 
+To adequately compare an end-to-end JavaScript solution to a more traditional implementation, two versions of the same application must be built. In order for testing to be as meaningful as possible, the application will be kept minimal in terms of features, and will avoid certain kinds of complexity that will only add overhead in implementation, but provide little additional value for the stated goal of this experiment.
+
+A post-and-comment type of system is a straightforward application to consider. Any number of posts can be created, and each post has any number of (flat) comments/replies as children. This model can be easily extended to a peer review site, message board or blogging platform, where the basic interaction is the same. User signup and authentication are not considered, as they only increases complexity without providing an interesting evaluation target --- neither are frequent operations.
+
 \subsection{\label{sec:arch:API}API}
+
+There are multiple approaches to building application programming interfaces for software, and often the chosen design depends on the type of API being built. For web applications, the Representational State Transfer~\cite{restful} (REST) model provides a straightforward approach to designing APIs, and fits well with the design of HTTP as it leverages existing HTTP verbs~\cite{rfc2616}. REST also fits well into the proposed application, as posts and comments neatly map to \emph{Resources}. Table~\ref{tab:api} lists the API. The combination of a HTTP verb and an URI immediately informs what the action will be --- this is one of the main benefits of using REST for API design.
+
+\begin{table*}
+    % \begin{tabular}{l p{1.15in} p{1.15in} p{1.15in} p{1in}}
+    \begin{tabular}{*{5}l}
+        \toprule
+        \multicolumn{1}{c}{\textbf{URI}} & \multicolumn{4}{c}{\textbf{HTTP 1.1 Methods}} \\
+        \cmidrule{2-5}
+        & GET & PUT & POST & DELETE \\
+        \midrule
+        /posts/ & get posts & replace posts & create post & delete posts \\
+        /post-\{id\}/ & get post & create/update post & update post & delete post \\
+        /post-\{id\}/comments/ & get comms. & replace comms. & create comm. & delete comms. \\
+        /post-\{id\}/comment-\{id\}/ & get comm. & create/update comm. & update comm. & delete comm. \\
+        \bottomrule
+    \end{tabular}
+    \caption{API methods}
+    \label{tab:api}
+\end{table*}
 
 \section{\label{sec:impl}Implementation}
 
-There are two server and two client applications built for this experiment. One of the pairs is built entirely in JavaScript, using \textbf{node.js}~\cite{node} and\textbf{SproutCore}~\cite{sprout} for the server and client components, respectively. The other pair uses a Python back-end, powered by the \textbf{web.py}~\cite{webpy} framework, and a pure HTML front-end. Clients and servers use the API~\ref{sec:arch:API} to communicate, and can be mixed in any server-client configuration desired. Table~\ref{tab:comps} lists all the components, their names and functions. Redis~\cite{redis} is used as the data store, as it provides a simple key-value interface that is more than sufficient for the given test scenario.
+Two server and two client applications were built for this experiment. One of the pairs is built entirely in JavaScript, using \textbf{node.js}~\cite{node} and \textbf{SproutCore}~\cite{sprout} for the server and client components, respectively. The other pair uses a Python back-end, powered by the \textbf{web.py}~\cite{webpy} framework, and a pure HTML front-end. Clients and servers use the API to communicate, and can be mixed in any server-client configuration desired. Table~\ref{tab:comps} lists all the components, their names and functions. Redis~\cite{redis} is used as the data store, as it provides a simple key-value interface that is more than sufficient for the given test scenario.
 
 \begin{table}
     \begin{center}
-        \begin{tabular}{l|cc}
+        \begin{tabular}{l c c}
             \toprule
             & \textbf{JavaScript} & \textbf{Python/HTML} \\
             \midrule
