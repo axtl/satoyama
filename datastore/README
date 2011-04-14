@@ -1,0 +1,3 @@
+Start `redis-server` pointing to the `redis.conf` in this folder. It will snapshot to `dump.rdb` every so often.
+
+Other parts of the suite may have hardcoded paths to these values.
