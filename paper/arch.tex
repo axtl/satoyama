@@ -6,7 +6,11 @@ A post-and-comment type of system is a straightforward application to consider. 
 
 \subsection{\label{sec:arch:API}API}
 
-There are multiple approaches to building application programming interfaces for software, and often the chosen design depends on the type of API being built. For web applications, the Representational State Transfer~\cite{restful} (REST) model provides a straightforward approach to designing APIs, and fits well with the design of HTTP as it leverages existing HTTP verbs~\cite{rfc2616}. REST also fits well into the proposed application, as posts and comments neatly map to \emph{Resources}. Table~\ref{tab:api} lists the API. The combination of a HTTP verb and an URI immediately informs what the action will be --- this is one of the main benefits of using REST for API design.
+Web applications can greatly benefit from the availability of an Application Programming Interface (API). When some or most of the functionality is exposed programmatically, other services can integrate and extend the application in novel ways. An API is also helpful to the original developers, as native applications, or mobile-optimized clients, can be built on top of it.
+
+While simple, the sample application built for this study can benefit from an API. With two clients and two servers, an API is the easiest way to mix and match components. An API also helps ensure feature parity between the two version of the application, and thus helps ensure the comparison is fair.
+
+It turns out that, from the multitude of existing approaches to building software APIs, one in particular suits web applications: Representational State Transfer~\cite{restful} (REST). This model leverages existing HTTP verbs~\cite{rfc2616} and encourages the use of meaningful URIs that are as adequate for human consumption as they are for programatic access. REST also fits well with the proposed application, as posts and comments neatly map to \emph{Resources}. Table~\ref{tab:api} lists the API. The combination of a HTTP verb and an URI immediately informs what the action will be --- this is one of the main benefits of using REST for API design.
 
 \begin{table*}
     % \begin{tabular}{l p{1.15in} p{1.15in} p{1.15in} p{1in}}
