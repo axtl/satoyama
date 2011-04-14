@@ -1,1 +1,7 @@
 \section{\label{sec:relwork}Related Work}
+
+Server-side JavaScript is not a new idea, and Netscape's Rhino engine has been used for that purpose since 1997~\cite{rhinohist}. The resurgence in interest for server-side JavaScript may be attributed to Node.js. Not only does Node.js use the fastest currently-available JavaScript engine~\cite{compworld} --- Google's V8~\cite{v8} --- but as an event-driven framework, it is particularly attractive for use in large-scale, real-time applications.
+
+Many of the features available in SproutCore have been previously proposed~\cite{flyhtml}\cite{synckit}. \emph{Thick clients}, built in JavaScript, are an increasingly popular way of reducing server load. In these architectures, aggressive caching is used to reduce bandwidth consumption on both sides (server and client), while the ability to offload most of the computation to users helps the application serve more requests.
+
+No metrics similar to those this paper seeks to collect have been published in the literature. Testing of server-side components only, however, has been done informally~\cite{entcris}\cite{nodevsringo}\cite{nodevserlang}\cite{ericday}.
