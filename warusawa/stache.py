@@ -2,25 +2,9 @@ import pystache
 
 # location of Mustache templates
 TMPL = 'templates'
-# threshold for shortening text
-THR = 50
 
 
 # TESTING #
-p1 = "Praesent eget neque eu eros interdum malesuada non vel leo. Sed \
-     fringilla porta ligula egestas tincidunt. Nullam risus magna, ornare \
-     vitae varius eget, scelerisque a libero. Morbi eu porttitor ipsum. \
-     Nullam lorem nisi, posuere quis volutpat eget, luctus nec massa. \
-     Pellentesque aliquam lacinia tellus sit amet bibendum. Ut posuere justo \
-     in enim pretium scelerisque. Etiam ornare vehicula euismod. Vestibulum \
-     at risus augue. Sed non semper dolor. Sed fringilla consequat velit a \
-     porta."
-p2 = "Nulla fringilla, orci ac euismod semper, magna diam porttitor mauris, \
-     quis sollicitudin sapien justo in libero. Vestibulum mollis mauris enim. \
-     Morbi euismod magna ac lorem rutrum elementum. Donec viverra auctor \
-     lobortis. Pellentesque eu est a nulla placerat dignissim. Morbi a enim \
-     in magna semper bibendum. Etiam scelerisque, nunc ac egestas consequat, \
-     odio nibh euismod."
 c1 = "this is a longer comment because we need to test some crap, and\
      lorem ipsum is such a bother, really, that I'm not even going to \
      try and pretend..."
@@ -57,29 +41,29 @@ class Posts(pystache.View):
         return "Posts"
 
     def num_posts(self):
-        return 0 # fetch from Redis
+        return self.context['num_posts']
 
     def posts(self):
-        posts = []
-        posts.append({'short_name': _trim_post(p1), 'url': '1'})
-        posts.append({'short_name': _trim_post(p2), 'url': '2'})
-        return posts
+        return self.context['posts']
 
 
 class Post(pystache.View):
     template_path = TMPL
 
     def post_title(self):
-        return "{TITLE}"
+        return self.context['title']
 
     def post_id(self):
         return self.context['post_id']
 
     def post_body(self):
-        return p2
+        return self.context['body']
 
-    def has_comments(self):
-        return True
+    def num_comms(self):
+        return self.context['numc'] if 'numc' in self.context else False
+
+    def is_plural(self):
+        return 'numc' in self.context and self.context['numc'] > 1
 
 
 class Comments(pystache.View):
