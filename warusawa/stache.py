@@ -49,10 +49,6 @@ def _trim_post(post_text):
 class Index(pystache.View):
     template_path = TMPL
 
-    def num_posts(self):
-        # should fetch from Redis
-        return 0
-
 
 class Posts(pystache.View):
     template_path = TMPL

@@ -20,7 +20,10 @@
     </header>
     <div id="main" role="main">
         <h2>This is post <strong>{{post_id}}</strong>.</h2>
-        <p class="post_body">{{post_body}}</p>
+        <h3>{{post_title}}</h3>
+        <div class="entry">
+            <p class="post_body">{{post_body}}</p>
+        </div>
         {{#has_comments}}
             <p><a href="comments/">Comments</a></p>
         {{/has_comments}}
@@ -143,6 +146,23 @@
         overflow:auto;
         padding-bottom: 3em; /* must be same height as the footer */
     }
+    
+    .comment_body, .post_body {
+        font-size: 1em;
+        width: 30em;
+        line-height: 1.25em;
+        margin: 0;
+        padding: .25em 0;
+    }
+    
+    .greeting {
+        display: block;
+        color: #c48dff;
+        font-size: xx-large;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20%;
+    }
 
     p {
         font-size: 2em;
@@ -150,9 +170,10 @@
     }
 
     ol {
-        list-style-type: decimal-leading-zero;
+        padding-top: 1em;
+        list-style-type: decimal;
     }
-    ol li {
+    ol li, .entry {
         font-size: 1.5em;
         margin-left: 10%;
         margin-top: .5em;

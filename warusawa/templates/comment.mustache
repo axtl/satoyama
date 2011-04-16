@@ -21,7 +21,7 @@
     <div id="main" role="main">
         <h2>See the other <a href="..">comments</a> or go back to the <a href="../..">post</a></h2>
         <h3>Comment:</h3>
-        <div class="comment">
+        <div class="entry">
             <a href="{{url}}/">{{date}}</a>
             <p class="comment_body">{{body}}</p>
         </div>
@@ -152,6 +152,15 @@
         margin: 0;
         padding: .25em 0;
     }
+    
+    .greeting {
+        display: block;
+        color: #c48dff;
+        font-size: xx-large;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20%;
+    }
 
     p {
         font-size: 2em;
@@ -162,7 +171,7 @@
         padding-top: 1em;
         list-style-type: decimal;
     }
-    ol li, .comment {
+    ol li, .entry {
         font-size: 1.5em;
         margin-left: 10%;
         margin-top: .5em;
