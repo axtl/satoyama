@@ -5,13 +5,23 @@ from gevent import monkey
 monkey.patch_all()
 from gevent.wsgi import WSGIServer
 import gevent
+from mimerender import mimerender
+import simplejson as json
 import stache
 import sys
 import web
 
 # turn on GEVENT?
-
 WITH_GEVENT = True
+
+render_json = lambda **args: json.dumps(args['ctx'])
+render_txt = lambda ctx: ctx
+html_index = lambda ctx: stache.Index().render()
+html_posts = lambda ctx: stache.Posts().render()
+html_post = lambda ctx: stache.Post(context=ctx).render()
+html_comments = lambda ctx: stache.Comments(context=ctx).render()
+html_comment = lambda ctx: stache.Comment(context=ctx).render()
+
 
 # Setup the appropriate routes for the server
 urls = ('/posts/(\d+)/comments/(\d+)/?', 'comment',
@@ -23,35 +33,40 @@ urls = ('/posts/(\d+)/comments/(\d+)/?', 'comment',
 
 class index:
 
+    @mimerender(default = 'html', html=html_index, json=render_json)
     def GET(self):
-        return stache.Index().render()
+        return {'ctx':''}
 
 
 class posts:
 
+    @mimerender(default = 'html', html=html_posts, json=render_json)
     def GET(self):
-        return stache.Posts().render()
+        return {'ctx':''}
 
 
 class post:
 
+    @mimerender(default = 'html', html=html_post, json=render_json)
     def GET(self, post_id):
         ctx = {'post_id': post_id}
-        return stache.Post(context=ctx).render()
+        return {'ctx': ctx}
 
 
 class comments:
 
+    @mimerender(default = 'html', html=html_comments, json=render_json)
     def GET(self, for_post_id):
         ctx = {'for_post_id': for_post_id}
-        return stache.Comments(context=ctx).render()
+        return {'ctx': ctx}
 
 
 class comment:
 
+    @mimerender(default = 'html', html=html_comment, json=render_json)
     def GET(self, for_post_id, comm_id):
         ctx = {'for_post_id': for_post_id, 'comm_id': comm_id}
-        return stache.Comment(context=ctx).render()
+        return {'ctx': ctx}
 
 # Run the application
 if __name__ == "__main__":

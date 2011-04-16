@@ -26,6 +26,7 @@ The simple [REST API](/totolici/satoyama/blob/master/API.md)
 * [libevent](http://monkey.org/~provos/libevent/)
 * [gevent](http://www.gevent.org/)
 * [web.py](http://webpy.org/)
+* [mimerender](http://code.google.com/p/mimerender/)
 
 #### (c) alexandru totolici ####
 ##### UBC CPSC 507 Term Project Jan-Apr 2011 #####
