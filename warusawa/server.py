@@ -15,7 +15,7 @@ import web
 WITH_GEVENT = True
 
 render_json = lambda **args: json.dumps(args['ctx'])
-render_txt = lambda ctx: ctx
+render_txt = lambda **args: args['ctx']
 html_index = lambda ctx: stache.Index().render()
 html_posts = lambda ctx: stache.Posts().render()
 html_post = lambda ctx: stache.Post(context=ctx).render()
@@ -33,21 +33,30 @@ urls = ('/posts/(\d+)/comments/(\d+)/?', 'comment',
 
 class index:
 
-    @mimerender(default = 'html', html=html_index, json=render_json)
+    @mimerender(default = 'html',
+                html=html_index,
+                json=render_json,
+                txt=render_txt)
     def GET(self):
         return {'ctx':''}
 
 
 class posts:
 
-    @mimerender(default = 'html', html=html_posts, json=render_json)
+    @mimerender(default = 'html',
+                html=html_posts,
+                json=render_json,
+                txt=render_txt)
     def GET(self):
         return {'ctx':''}
 
 
 class post:
 
-    @mimerender(default = 'html', html=html_post, json=render_json)
+    @mimerender(default = 'html',
+                html=html_post,
+                json=render_json,
+                txt=render_txt)
     def GET(self, post_id):
         ctx = {'post_id': post_id}
         return {'ctx': ctx}
@@ -55,7 +64,10 @@ class post:
 
 class comments:
 
-    @mimerender(default = 'html', html=html_comments, json=render_json)
+    @mimerender(default = 'html',
+                html=html_comments,
+                json=render_json,
+                txt=render_txt)
     def GET(self, for_post_id):
         ctx = {'for_post_id': for_post_id}
         return {'ctx': ctx}
@@ -63,7 +75,10 @@ class comments:
 
 class comment:
 
-    @mimerender(default = 'html', html=html_comment, json=render_json)
+    @mimerender(default = 'html',
+                html=html_comment,
+                json=render_json,
+                txt=render_txt)
     def GET(self, for_post_id, comm_id):
         ctx = {'for_post_id': for_post_id, 'comm_id': comm_id}
         return {'ctx': ctx}
