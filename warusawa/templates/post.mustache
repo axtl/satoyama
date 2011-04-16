@@ -19,7 +19,11 @@
         <h1><a href="/">Satoyama</a></h1>
     </header>
     <div id="main" role="main">
-        <p>There are <a href="/posts/" title="Post Listing">{{num_posts}} posts</a> available for your reading pleasure.</p>
+        <h2>This is post <strong>{{post_id}}</strong>.</h2>
+        <p class="post_body">{{post_body}}</p>
+        {{#has_comments}}
+            <p><a href="comments/">Comments</a></p>
+        {{/has_comments}}
     </div>
   </div> <!--! end of #container -->
   <footer>
@@ -139,14 +143,6 @@
         overflow:auto;
         padding-bottom: 3em; /* must be same height as the footer */
     }
-    
-    .comment_body, .post_body {
-        font-size: 1em;
-        width: 30em;
-        line-height: 1.25em;
-        margin: 0;
-        padding: .25em 0;
-    }
 
     p {
         font-size: 2em;
@@ -154,10 +150,9 @@
     }
 
     ol {
-        padding-top: 1em;
-        list-style-type: decimal;
+        list-style-type: decimal-leading-zero;
     }
-    ol li, .comment {
+    ol li {
         font-size: 1.5em;
         margin-left: 10%;
         margin-top: .5em;

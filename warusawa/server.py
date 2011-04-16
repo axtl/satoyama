@@ -14,9 +14,9 @@ import web
 WITH_GEVENT = True
 
 # Setup the appropriate routes for the server
-urls = ('/post-(\d+)/comment-(\d+)/?', 'comment',
-        '/post-(\d+)/comments/?', 'comments',
-        '/post-(\d+)/?', 'post',
+urls = ('/posts/(\d+)/comments/(\d+)/?', 'comment',
+        '/posts/(\d+)/comments/?', 'comments',
+        '/posts/(\d+)/?', 'post',
         '/posts/?', 'posts',
         '/', 'index')
 
@@ -30,26 +30,28 @@ class index:
 class posts:
 
     def GET(self):
-        return "posts? what posts?"
-        return stache.Index
+        return stache.Posts().render()
 
 
 class post:
 
     def GET(self, post_id):
-        return "post_id: " + str(post_id)
+        ctx = {'post_id': post_id}
+        return stache.Post(context=ctx).render()
 
 
 class comments:
 
     def GET(self, for_post_id):
-        return "comments for_post_id: " + str(for_post_id)
+        ctx = {'for_post_id': for_post_id}
+        return stache.Comments(context=ctx).render()
 
 
 class comment:
 
     def GET(self, for_post_id, comm_id):
-        return "for_post_id: " + str(for_post_id) + " comm_id: " + str(comm_id)
+        ctx = {'for_post_id': for_post_id, 'comm_id': comm_id}
+        return stache.Comment(context=ctx).render()
 
 # Run the application
 if __name__ == "__main__":
