@@ -1,3 +1,11 @@
 Start `redis-server` pointing to the `redis.conf` in this folder. It will snapshot to `dump.rdb` every so often.
 
-Other parts of the suite may have hardcoded paths to these values.
+The format of the data in the store is:
+
+* `next.post.id`
+* `post.list`
+* `posts:<id>:title`
+* `posts:<id>:body`
+* `posts:<id>:next.comm.id`
+* `posts:<id>:comm:<id>`
+* `posts:<id>:comm.list`
