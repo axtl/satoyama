@@ -4,7 +4,7 @@ monkey.patch_all()
 from gevent.wsgi import WSGIServer
 import gevent
 from mimerender import mimerender
-import redis
+import red as r
 import simplejson as json
 import stache
 import sys
@@ -18,29 +18,6 @@ html_posts = lambda ctx: stache.Posts(context=ctx).render()
 html_post = lambda ctx: stache.Post(context=ctx).render()
 html_comments = lambda ctx: stache.Comments(context=ctx).render()
 html_comment = lambda ctx: stache.Comment(context=ctx).render()
-
-# redis setup
-r = redis.Redis(host='localhost', port=6379, db=0)
-
-
-def _post(post_id, segm):
-    # used to quickly compute the proper Redis key based on id and segment
-    return 'posts:%s:%s' % (post_id, segm)
-
-
-def _comm(post_id, comm_id):
-    # compute the Redis key for the post/comment
-    return 'posts:%s:comm:%s' % (post_id, comm_id)
-
-
-def inredis(f):
-    # determines if a post exists in redis before running the decorated func
-    def wrap(*args, **kwargs):
-        if len(args) > 1 and not r.exists(_post(args[1], 'post_id')):
-            return web.notfound()
-        else:
-            return f(*args, **kwargs)
-    return wrap
 
 
 # Setup the appropriate routes for the server
@@ -68,59 +45,51 @@ class posts:
                 json=render_json,
                 txt=render_txt)
     def GET(self):
-        num = r.llen('post.list')
-        post_idxs = r.lrange('post.list', 0, -1) # get all posts
+        num = r.len('post.list')
+        post_idxs = r.get_list('post.list')
         posts = []
         for pid in post_idxs:
-            title = r[_post(pid, 'title')]
-            date = r[_post(pid, 'date')]
+            title = r.post_key(pid, 'title')
+            date = r.post_key(pid, 'date')
             posts.append({'title': title, 'date': date, 'url': pid})
         ctx = {'num_posts': num, 'posts': posts}
         return {'ctx': ctx}
 
     def DELETE(self):
-        post_idxs = r.lrange('post.list', 0, -1) # get all posts
-        for pid in post_idxs:
-            r.delete(_post(pid, 'title'))
-            r.delete(_post(pid, 'body'))
-            r.delete(_post(pid, 'date'))
-            r.delete(_post(pid, 'next.comm.id'))
-            comm_idxs = r.lrange(_post(pid, 'comm.list'), 0, -1)
-            for cid in comm_idxs:
-                r.delete(_comm(pid, cid))
-                r.delete(_comm(pid, cid) + ':date')
-            r.delete(_post(pid, 'comm.list'))
-        r.delete('post.list')
+        r.posts_del()
 
 
 class post:
 
-    @inredis
+    @r.inredis
     @mimerender(default = 'html',
                 html=html_post,
                 json=render_json,
                 txt=render_txt)
     def GET(self, post_id):
-        title = r[_post(post_id, 'title')]
-        body = r[_post(post_id, 'body')]
-        numc = r[_post(post_id, 'next.comm.id')]
+        title = r.post_key(post_id, 'title')
+        body = r.post_key(post_id, 'body')
+        numc = r.post_key(post_id, 'next.comm.id')
         ctx = {'post_id': post_id, 'title': title, 'body': body, 'numc': numc}
         return {'ctx': ctx}
+
+    def DELETE(self, post_id):
+        pass
 
 
 class comments:
 
-    @inredis
+    @r.inredis
     @mimerender(default = 'html',
                 html=html_comments,
                 json=render_json,
                 txt=render_txt)
     def GET(self, post_id):
-        comm_idxs = r.lrange(_post(post_id, 'comm.list'), 0, -1)
+        comm_idxs = r.get_list(r.post_key(post_id, 'comm.list', raw=True))
         comments = []
         for cid in comm_idxs:
-            body = r[_comm(post_id, cid)]
-            date = r[_comm(post_id, cid) + ':date']
+            body = r.comm(post_id, cid)
+            date = r.comm_key(post_id, cid, 'date')
             comments.append({'url': cid, 'body': body, 'date': date})
         ctx = {'post_id': post_id, 'comments': comments}
         return {'ctx': ctx}
@@ -128,13 +97,13 @@ class comments:
 
 class comment:
 
-    @inredis
+    @r.inredis
     @mimerender(default = 'html',
                 html=html_comment,
                 json=render_json,
                 txt=render_txt)
     def GET(self, post_id, comm_id):
-        body = r[_comm(post_id, comm_id)]
+        body = r.comm(post_id, comm_id)
         ctx = {'post_id': post_id, 'comm_id': comm_id, 'body': body}
         return {'ctx': ctx}
 
