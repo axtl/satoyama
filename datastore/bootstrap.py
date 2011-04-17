@@ -26,8 +26,6 @@ def main(argv):
         npid = r.incr('next.post.id')
         # store in the posts list
         r.lpush('post.list', npid)
-        # store in the id field of the post itself, for simplicity
-        r[post(npid, 'post_id')] = npid
         # post title
         r[post(npid, 'title')] = 'TITLE: %s' % npid
         # post body
