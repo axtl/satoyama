@@ -1,18 +1,7 @@
 import redis
-import web
 
 # redis setup
 r = redis.Redis(host='localhost', port=6379, db=0)
-
-
-def inredis(f):
-    # determines if a post exists in redis before running the decorated func
-    def wrap(*args, **kwargs):
-        if len(args) > 1 and not r.exists(post_key(args[1], 'date')):
-            return web.notfound()
-        else:
-            return f(*args, **kwargs)
-    return wrap
 
 
 def post_key(pid, part, raw=False):
@@ -45,6 +34,7 @@ def post_del(pid):
     r.delete(post_key(pid, 'body', raw=True))
     r.delete(post_key(pid, 'date', raw=True))
     r.delete(post_key(pid, 'next.comm.id', raw=True))
+    r.lrem('post.list', pid)
     comms_del(pid)
 
 
@@ -58,6 +48,7 @@ def comms_del(pid):
 def comm_del(pid, cid):
     r.delete(comm(pid, cid, raw=True))
     r.delete(comm_key(pid, cid, 'date', raw=True))
+    r.lrem(post_key(pid, 'comm.list', raw=True), cid)
 
 
 def get_list(lkey):
@@ -66,3 +57,7 @@ def get_list(lkey):
 
 def len(lkey):
     return r.llen(lkey)
+
+
+def has(key):
+    return r.exists(key)

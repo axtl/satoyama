@@ -20,6 +20,16 @@ html_comments = lambda ctx: stache.Comments(context=ctx).render()
 html_comment = lambda ctx: stache.Comment(context=ctx).render()
 
 
+def inredis(f):
+    # determines if a post exists in redis before running the decorated func
+    def wrap(*args, **kwargs):
+        if len(args) > 1 and not r.has(r.post_key(args[1], 'date', raw=True)):
+            return web.notfound()
+        else:
+            return f(*args, **kwargs)
+    return wrap
+
+
 # Setup the appropriate routes for the server
 urls = ('/posts/(\d+)/comments/(\d+)/?', 'comment',
         '/posts/(\d+)/comments/?', 'comments',
@@ -61,7 +71,7 @@ class posts:
 
 class post:
 
-    @r.inredis
+    @inredis
     @mimerender(default = 'html',
                 html=html_post,
                 json=render_json,
@@ -69,12 +79,12 @@ class post:
     def GET(self, post_id):
         title = r.post_key(post_id, 'title')
         body = r.post_key(post_id, 'body')
-        numc = r.post_key(post_id, 'next.comm.id')
+        numc = r.len(r.post_key(post_id, 'comm.list', raw=True))
         ctx = {'post_id': post_id, 'title': title, 'body': body, 'numc': numc}
         return {'ctx': ctx}
 
     def DELETE(self, post_id):
-        pass
+        r.post_del(post_id)
 
 
 class comments:
@@ -94,6 +104,9 @@ class comments:
         ctx = {'post_id': post_id, 'comments': comments}
         return {'ctx': ctx}
 
+    def DELETE(self, post_id):
+        r.comms_del(post_id)
+
 
 class comment:
 
@@ -106,6 +119,9 @@ class comment:
         body = r.comm(post_id, comm_id)
         ctx = {'post_id': post_id, 'comm_id': comm_id, 'body': body}
         return {'ctx': ctx}
+
+    def DELETE(self, post_id, comm_id):
+        r.comm_del(post_id, comm_id)
 
 # Run the application
 if __name__ == "__main__":
