@@ -6,6 +6,8 @@ The format of the data in the store is:
 * `post.list`
 * `posts:<id>:title`
 * `posts:<id>:body`
+* `posts:<id>:date`
 * `posts:<id>:next.comm.id`
 * `posts:<id>:comm:<id>`
+* `posts:<id>:comm:<id>:date`
 * `posts:<id>:comm.list`

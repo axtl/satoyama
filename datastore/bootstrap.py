@@ -30,6 +30,8 @@ def main(argv):
         r[post(npid, 'title')] = 'TITLE: %s' % npid
         # post body
         r[post(npid, 'body')] = 'This is post %s' % npid
+        # post date
+        r[post(npid, 'date')] = datetime.utcnow()
         # increment per-post comment counter
         ncid = r.incr(post(npid, 'next.comm.id'))
         # store in the per-post list of active comments
