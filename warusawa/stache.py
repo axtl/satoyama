@@ -63,7 +63,7 @@ class Post(pystache.View):
         return self.context['numc'] if 'numc' in self.context else False
 
     def is_plural(self):
-        return 'numc' in self.context and int(self.context['numc']) > 1
+        return 'numc' in self.context and int(self.context['numc']) != 1
 
 
 class Comments(pystache.View):
@@ -79,7 +79,7 @@ class Comments(pystache.View):
         return len(self.context['comments'])
 
     def is_plural(self):
-        return len(self.context['comments']) > 1
+        return len(self.context['comments']) != 1
 
 
 class Comment(pystache.View):
