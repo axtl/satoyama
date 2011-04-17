@@ -86,10 +86,10 @@ class Comment(pystache.View):
     template_path = TMPL
 
     def for_post(self):
-        return self.context['for_post_id']
+        return self.context['post_id']
 
     def comm_id(self):
         return self.context['comm_id']
 
     def body(self):
-        return c2
+        return self.context['body']

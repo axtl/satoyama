@@ -117,8 +117,9 @@ class comment:
                 html=html_comment,
                 json=render_json,
                 txt=render_txt)
-    def GET(self, for_post_id, comm_id):
-        ctx = {'for_post_id': for_post_id, 'comm_id': comm_id}
+    def GET(self, post_id, comm_id):
+        body = r[_comm(post_id, comm_id)]
+        ctx = {'post_id': post_id, 'comm_id': comm_id, 'body': body}
         return {'ctx': ctx}
 
 # Run the application
