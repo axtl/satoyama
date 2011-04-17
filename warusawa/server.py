@@ -68,13 +68,29 @@ class posts:
                 json=render_json,
                 txt=render_txt)
     def GET(self):
-        num = r.get('next.post.id')
+        num = r.llen('post.list')
         post_idxs = r.lrange('post.list', 0, -1) # get all posts
         posts = []
         for pid in post_idxs:
-            posts.append({'title': r[_post(pid, 'title')], 'url': pid})
+            title = r[_post(pid, 'title')]
+            date = r[_post(pid, 'date')]
+            posts.append({'title': title, 'date': date, 'url': pid})
         ctx = {'num_posts': num, 'posts': posts}
         return {'ctx': ctx}
+
+    def DELETE(self):
+        post_idxs = r.lrange('post.list', 0, -1) # get all posts
+        for pid in post_idxs:
+            r.delete(_post(pid, 'title'))
+            r.delete(_post(pid, 'body'))
+            r.delete(_post(pid, 'date'))
+            r.delete(_post(pid, 'next.comm.id'))
+            comm_idxs = r.lrange(_post(pid, 'comm.list'), 0, -1)
+            for cid in comm_idxs:
+                r.delete(_comm(pid, cid))
+                r.delete(_comm(pid, cid) + ':date')
+            r.delete(_post(pid, 'comm.list'))
+        r.delete('post.list')
 
 
 class post:
