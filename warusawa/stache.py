@@ -63,20 +63,23 @@ class Post(pystache.View):
         return self.context['numc'] if 'numc' in self.context else False
 
     def is_plural(self):
-        return 'numc' in self.context and self.context['numc'] > 1
+        return 'numc' in self.context and int(self.context['numc']) > 1
 
 
 class Comments(pystache.View):
     template_path = TMPL
 
     def for_post(self):
-        return self.context['for_post_id']
+        return self.context['post_id']
 
     def comments(self):
-        comments = []
-        comments.append({'body': c1, 'url': '1', 'date': 'A'})
-        comments.append({'body': c2, 'url': '2', 'date': 'B'})
-        return comments
+        return self.context['comments']
+
+    def numc(self):
+        return len(self.context['comments'])
+
+    def is_plural(self):
+        return len(self.context['comments']) > 1
 
 
 class Comment(pystache.View):

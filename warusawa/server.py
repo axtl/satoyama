@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-"""A web.py application powered by gevent"""
-# https://bitbucket.org/denis/gevent/src/960ab8d1352f/examples/webpy.py
 from gevent import monkey
 monkey.patch_all()
 from gevent.wsgi import WSGIServer
@@ -30,8 +28,13 @@ def _post(post_id, segm):
     return 'posts:%s:%s' % (post_id, segm)
 
 
+def _comm(post_id, comm_id):
+    # compute the Redis key for the post/comment
+    return 'posts:%s:comm:%s' % (post_id, comm_id)
+
+
 def inredis(f):
-    # determines if a post exists in redis before running the decorated fun
+    # determines if a post exists in redis before running the decorated func
     def wrap(*args, **kwargs):
         if len(args) > 1 and not r.exists(_post(args[1], 'post_id')):
             return web.notfound()
@@ -66,10 +69,10 @@ class posts:
                 txt=render_txt)
     def GET(self):
         num = r.get('next.post.id')
-        post_idxs = r.lrange('post.list', 0, 10)
+        post_idxs = r.lrange('post.list', 0, -1) # get all posts
         posts = []
         for pid in post_idxs:
-            posts.append({'title': r.get(_post(pid, 'title')), 'url': pid})
+            posts.append({'title': r[_post(pid, 'title')], 'url': pid})
         ctx = {'num_posts': num, 'posts': posts}
         return {'ctx': ctx}
 
@@ -84,7 +87,7 @@ class post:
     def GET(self, post_id):
         title = r[_post(post_id, 'title')]
         body = r[_post(post_id, 'body')]
-        numc = r.llen(_post(post_id, 'comms'))
+        numc = r[_post(post_id, 'next.comm.id')]
         ctx = {'post_id': post_id, 'title': title, 'body': body, 'numc': numc}
         return {'ctx': ctx}
 
@@ -96,8 +99,14 @@ class comments:
                 html=html_comments,
                 json=render_json,
                 txt=render_txt)
-    def GET(self, for_post_id):
-        ctx = {'for_post_id': for_post_id}
+    def GET(self, post_id):
+        comm_idxs = r.lrange(_post(post_id, 'comm.list'), 0, -1)
+        comments = []
+        for cid in comm_idxs:
+            body = r[_comm(post_id, cid)]
+            date = r[_comm(post_id, cid) + ':date']
+            comments.append({'url': cid, 'body': body, 'date': date})
+        ctx = {'post_id': post_id, 'comments': comments}
         return {'ctx': ctx}
 
 
