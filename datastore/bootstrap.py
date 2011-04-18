@@ -27,18 +27,18 @@ def main(argv):
         # store in the posts list
         r.lpush('post.list', npid)
         # post title
-        r[post(npid, 'title')] = 'TITLE: %s' % npid
+        r[post(npid, 'post_title')] = 'TITLE: %s' % npid
         # post body
-        r[post(npid, 'body')] = 'This is post %s' % npid
+        r[post(npid, 'post_body')] = 'This is post %s' % npid
         # post date
-        r[post(npid, 'date')] = datetime.utcnow()
+        r[post(npid, 'post_date')] = datetime.utcnow()
         # increment per-post comment counter
         ncid = r.incr(post(npid, 'next.comm.id'))
         # store in the per-post list of active comments
         r.lpush(post(npid, 'comm.list'), ncid)
         # and store the post
         r[comm(npid, ncid)] = 'A comment for post %s' % npid
-        r[comm(npid, ncid) + ':date'] = datetime.utcnow()
+        r[comm(npid, ncid) + ':comm_date'] = datetime.utcnow()
 
 if __name__ == '__main__':
     main(sys.argv)

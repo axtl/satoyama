@@ -36,26 +36,26 @@ def post_add(title, body):
     # store in the posts list
     r.lpush('post.list', npid)
     # post title
-    r[post_key(npid, 'title', raw=True)] = title
+    r[post_key(npid, 'post_title', raw=True)] = title
     # post body
-    r[post_key(npid, 'body', raw=True)] = body
+    r[post_key(npid, 'post_body', raw=True)] = body
     # post date
-    r[post_key(npid, 'date', raw=True)] = datetime.utcnow()
+    r[post_key(npid, 'post_date', raw=True)] = datetime.utcnow()
 
 
 def post_update(pid, title, body):
     # post title
-    r[post_key(pid, 'title', raw=True)] = title
+    r[post_key(pid, 'post_title', raw=True)] = title
     # post body
-    r[post_key(pid, 'body', raw=True)] = body
+    r[post_key(pid, 'post_body', raw=True)] = body
     # post date
-    r[post_key(pid, 'date', raw=True)] = datetime.utcnow()
+    r[post_key(pid, 'post_date', raw=True)] = datetime.utcnow()
 
 
 def post_del(pid):
-    r.delete(post_key(pid, 'title', raw=True))
-    r.delete(post_key(pid, 'body', raw=True))
-    r.delete(post_key(pid, 'date', raw=True))
+    r.delete(post_key(pid, 'post_title', raw=True))
+    r.delete(post_key(pid, 'post_body', raw=True))
+    r.delete(post_key(pid, 'post_date', raw=True))
     r.delete(post_key(pid, 'next.comm.id', raw=True))
     r.lrem('post.list', pid)
     comms_del(pid)
@@ -68,25 +68,25 @@ def comms_del(pid):
     r.delete(post_key(pid, 'comm.list', raw=True))
 
 
-def comm_add(pid, body):
+def comm_add(pid, comm_body):
     # increment per-post comment counter
     ncid = r.incr(post_key(pid, 'next.comm.id', raw=True))
     # store in the per-post list of active comments
     r.lpush(post_key(pid, 'comm.list', raw=True), ncid)
     # and store the post
-    r[comm(pid, ncid, raw=True)] = body
-    r[comm_key(pid, ncid, 'date', raw=True)] = datetime.utcnow()
+    r[comm(pid, ncid, raw=True)] = comm_body
+    r[comm_key(pid, ncid, 'comm_date', raw=True)] = datetime.utcnow()
 
 
-def comm_update(pid, cid, body):
+def comm_update(pid, cid, comm_body):
     # and store the post
-    r[comm(pid, cid, raw=True)] = body
-    r[comm_key(pid, cid, 'date', raw=True)] = datetime.utcnow()
+    r[comm(pid, cid, raw=True)] = comm_body
+    r[comm_key(pid, cid, 'comm_date', raw=True)] = datetime.utcnow()
 
 
 def comm_del(pid, cid):
     r.delete(comm(pid, cid, raw=True))
-    r.delete(comm_key(pid, cid, 'date', raw=True))
+    r.delete(comm_key(pid, cid, 'comm_date', raw=True))
     r.lrem(post_key(pid, 'comm.list', raw=True), cid)
 
 

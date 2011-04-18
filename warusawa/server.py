@@ -23,10 +23,10 @@ html_comment = lambda ctx: stache.Comment(context=ctx).render()
 def inredis(f):
     # determines if a post exists in redis before running the decorated func
     def wrap(*args, **kwargs):
-        if len(args) > 1 and not r.has(r.post_key(args[1], 'date', raw=True)):
-            return web.notfound()
-        else:
+        if len(args) < 1 or r.has(r.post_key(args[1], 'post_date', raw=True)):
             return f(*args, **kwargs)
+        else:
+            return web.notfound()
     return wrap
 
 
@@ -59,9 +59,9 @@ class posts:
         post_idxs = r.get_list('post.list')
         posts = []
         for pid in post_idxs:
-            title = r.post_key(pid, 'title')
-            date = r.post_key(pid, 'date')
-            posts.append({'title': title, 'date': date, 'url': pid})
+            title = r.post_key(pid, 'post_title')
+            date = r.post_key(pid, 'post_date')
+            posts.append({'post_title': title, 'post_date': date, 'url': pid})
         ctx = {'num_posts': num, 'posts': posts}
         return {'ctx': ctx}
 
@@ -87,10 +87,16 @@ class post:
                 json=render_json,
                 txt=render_txt)
     def GET(self, post_id):
-        title = r.post_key(post_id, 'title')
-        body = r.post_key(post_id, 'body')
+        title = r.post_key(post_id, 'post_title')
+        body = r.post_key(post_id, 'post_body')
+        date = r.post_key(post_id, 'post_date')
         numc = r.len(r.post_key(post_id, 'comm.list', raw=True))
-        ctx = {'post_id': post_id, 'title': title, 'body': body, 'numc': numc}
+        ctx = {
+            'post_id': post_id,
+            'post_title': title,
+            'post_body': body,
+            'post_date': date,
+            'numc': numc}
         return {'ctx': ctx}
 
     def PUT(self, post_id):
@@ -120,7 +126,7 @@ class comments:
         for cid in comm_idxs:
             body = r.comm(post_id, cid)
             date = r.comm_key(post_id, cid, 'date')
-            comments.append({'url': cid, 'body': body, 'date': date})
+            comments.append({'url': cid, 'comm_body': body, 'comm_date': date})
         ctx = {'post_id': post_id, 'comments': comments}
         return {'ctx': ctx}
 
@@ -147,7 +153,12 @@ class comment:
                 txt=render_txt)
     def GET(self, post_id, comm_id):
         body = r.comm(post_id, comm_id)
-        ctx = {'post_id': post_id, 'comm_id': comm_id, 'body': body}
+        date = r.comm_key(post_id, comm_id, 'comm_date')
+        ctx = {
+            'post_id': post_id,
+            'comm_id': comm_id,
+            'comm_body': body,
+            'comm_date': date}
         return {'ctx': ctx}
 
     def PUT(self, post_id, comm_id):

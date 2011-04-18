@@ -32,13 +32,13 @@ class Post(pystache.View):
     template_path = TMPL
 
     def post_title(self):
-        return self.context['title']
+        return self.context['post_title']
 
     def post_id(self):
         return self.context['post_id']
 
     def post_body(self):
-        return self.context['body']
+        return self.context['post_body']
 
     def num_comms(self):
         return self.context['numc'] if 'numc' in self.context else False
@@ -72,5 +72,5 @@ class Comment(pystache.View):
     def comm_id(self):
         return self.context['comm_id']
 
-    def body(self):
-        return self.context['body']
+    def comm_body(self):
+        return self.context['comm_body']
