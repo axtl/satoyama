@@ -22,11 +22,17 @@ The simple [REST API](/totolici/satoyama/blob/master/API.md)
 
 ## Requirements ##
 
-* [node.js](http://nodejs.org/)
-* [libevent](http://monkey.org/~provos/libevent/)
-* [gevent](http://www.gevent.org/)
-* [web.py](http://webpy.org/)
-* [mimerender](http://code.google.com/p/mimerender/)
+* Python
+    * [web.py](http://webpy.org/)
+    * [mimerender](http://code.google.com/p/mimerender/)
+    * [pystache](https://github.com/defunkt/pystache)
+    * [redis-py](https://github.com/andymccurdy/redis-py)
+    * [gevent](http://www.gevent.org/) (requires [libevent](http://monkey.org/~provos/libevent/))
+* [Node.js](http://nodejs.org/)
+    * [clutch](https://github.com/clement/clutch)
+    * [redis-node](https://github.com/bnoguchi/redis-node)
+* [SproutCore](http://www.sproutcore.com/)
+* [Redis](http://redis.io)
 
 #### (c) alexandru totolici ####
 ##### UBC CPSC 507 Term Project Jan-Apr 2011 #####
