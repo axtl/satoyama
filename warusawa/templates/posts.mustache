@@ -14,19 +14,27 @@
 </head>
 
 <body>
-  <div id="container">
     <header>
         <h1><a href="/">Satoyama</a></h1>
     </header>
-    <div id="main" role="main">
-        <h2>Here are the most recent <strong>{{num_posts}}</strong> posts:</h2>
-        <ol>
-            {{#posts}}<li><a href="{{url}}/">{{title}}</a><br/>{{date}}</li>{{/posts}}
-        </ol>
-    </div>
-  </div> <!--! end of #container -->
-  <footer>
-  </footer>
+    <div id="container">
+        <div id="main" role="main">
+            <h2>Here are the most recent <strong>{{num_posts}}</strong> posts:</h2>
+            <ol>
+                {{#posts}}<li><a href="{{url}}/">{{title}}</a><br/>{{date}}</li>{{/posts}}
+            </ol>
+        </div>
+        <div id="sidebar" role="sidebar">
+            <h2>New post:</h2>
+            <form name="new_post" method="POST">
+                <div><label for="post_title">Title:</label><input type="text" id="post_title" name="post_title"/></div>
+                <div><label for="post_body">Content:</label><textarea rows="10" id="post_body" name="post_body"/></textarea></div>
+                <div><input type="submit" value="Add Post" /></div>
+            </form>
+        </div>
+    </div> <!--! end of #container -->
+    <footer>
+    </footer>
 </body>
 
 <style type="text/css">
@@ -105,7 +113,10 @@
 
     /** PRIMARY STYLES **/
     html, body {height: 100%;}
-    #container {min-height: 100%;}
+    #container {
+        min-height: 100%;
+        width: 1280px;
+    }
     header {
         display: block;
         background-color: #c48dff;
@@ -139,10 +150,36 @@
 
     #main {
         height: 100%;
+        width: 720px;
+        float: left;
         overflow:auto;
+        padding-left: 2em;
         padding-bottom: 3em; /* must be same height as the footer */
     }
-    
+
+    #sidebar {
+        float: right;
+        width: 400px;
+        margin-top: 0;
+    }
+
+    #sidebar h2 {
+        margin-left: 0;
+    }
+
+    #sidebar input {
+        line-height: 1.25em;
+        margin-bottom: 1em;
+    }
+
+    #sidebar input[type='text'], #sidebar textarea {
+        width: 99%;
+    }
+
+    #sidebar input[type='submit'] {
+        float: right;
+    }
+
     .comment_body, .post_body {
         font-size: 1em;
         width: 30em;
@@ -150,7 +187,7 @@
         margin: 0;
         padding: .25em 0;
     }
-    
+
     .greeting {
         display: block;
         color: #c48dff;

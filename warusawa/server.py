@@ -71,9 +71,9 @@ class posts:
     def POST(self):
         try:
             data = json.loads(web.data())
-        except:
+        except ValueError:
             data = web.input()
-        return repr(data)
+        r.post_add(data['post_title'], data['post_body'])
 
     def DELETE(self):
         r.posts_del()
@@ -97,11 +97,7 @@ class post:
         return web.data()
 
     def POST(self, post_id):
-        try:
-            data = json.loads(web.data())
-        except ValueError:
-            data = web.input()
-        r.post_add(data['post_title'], data['post_body'])
+        pass
 
     def DELETE(self, post_id):
         r.post_del(post_id)
