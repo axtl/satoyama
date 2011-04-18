@@ -74,9 +74,11 @@ class posts:
         except ValueError:
             data = web.input()
         r.post_add(data['post_title'], data['post_body'])
+        raise web.seeother('.')
 
     def DELETE(self):
         r.posts_del()
+        raise web.seeother('/')
 
 
 class post:
@@ -108,9 +110,11 @@ class post:
         except ValueError:
             data = web.input()
         r.post_update(post_id, data['post_title'], data['post_body'])
+        raise web.seeother('.')
 
     def DELETE(self, post_id):
         r.post_del(post_id)
+        raise web.seeother('..')
 
 
 class comments:
@@ -139,9 +143,11 @@ class comments:
         except ValueError:
             data = web.input()
         r.comm_add(post_id, data['comm_body'])
+        raise web.seeother('.')
 
     def DELETE(self, post_id):
         r.comms_del(post_id)
+        raise web.seeother('..')
 
 
 class comment:
@@ -170,9 +176,11 @@ class comment:
         except ValueError:
             data = web.input()
         r.comm_update(post_id, comm_id, data['comm_body'])
+        raise web.seeother('.')
 
     def DELETE(self, post_id, comm_id):
         r.comm_del(post_id, comm_id)
+        raise web.seeother('..')
 
 # Run the application
 if __name__ == "__main__":
