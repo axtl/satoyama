@@ -8,21 +8,21 @@ index = (req, res) ->
     res.writeHead(200, {'Content-Type': 'application/json'})
     res.end('Satoyama\n')
 
-posts_routes = clutch.route404([['GET /$', posts.get_posts],
-                                ['POST /$', posts.post_posts],
-                                ['DELETE /$', posts.del_posts]])
+posts_routes = clutch.route404([['GET $', posts.get_posts],
+                                ['POST $', posts.post_posts],
+                                ['DELETE $', posts.del_posts]])
 
-post_routes = clutch.route404([['GET /$', post.get_post],
-                               ['POST /$', post.post_post],
-                               ['DELETE /$', post.del_post]])
+post_routes = clutch.route404([['GET $', post.get_post],
+                               ['POST $', post.post_post],
+                               ['DELETE $', post.del_post]])
 
-comms_routes = clutch.route404([['GET /$', comms.get_comms],
-                                ['POST /$', comms.post_comms],
-                                ['DELETE /$', comms.del_comms]])
+comms_routes = clutch.route404([['GET $', comms.get_comms],
+                                ['POST $', comms.post_comms],
+                                ['DELETE $', comms.del_comms]])
 
-comm_routes = clutch.route404([['GET /$', comm.get_comm],
-                               ['POST /$', comm.post_comm],
-                               ['DELETE /$', comm.del_comm]])
+comm_routes = clutch.route404([['GET $', comm.get_comm],
+                               ['POST $', comm.post_comm],
+                               ['DELETE $', comm.del_comm]])
 
 
 exports.urls = clutch.route404([['GET /$', index],
