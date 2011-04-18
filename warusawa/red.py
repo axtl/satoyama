@@ -43,6 +43,15 @@ def post_add(title, body):
     r[post_key(npid, 'date', raw=True)] = datetime.utcnow()
 
 
+def post_update(pid, title, body):
+    # post title
+    r[post_key(pid, 'title', raw=True)] = title
+    # post body
+    r[post_key(pid, 'body', raw=True)] = body
+    # post date
+    r[post_key(pid, 'date', raw=True)] = datetime.utcnow()
+
+
 def post_del(pid):
     r.delete(post_key(pid, 'title', raw=True))
     r.delete(post_key(pid, 'body', raw=True))
@@ -67,6 +76,12 @@ def comm_add(pid, body):
     # and store the post
     r[comm(pid, ncid, raw=True)] = body
     r[comm_key(pid, ncid, 'date', raw=True)] = datetime.utcnow()
+
+
+def comm_update(pid, cid, body):
+    # and store the post
+    r[comm(pid, cid, raw=True)] = body
+    r[comm_key(pid, cid, 'date', raw=True)] = datetime.utcnow()
 
 
 def comm_del(pid, cid):

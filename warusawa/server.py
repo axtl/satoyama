@@ -94,10 +94,14 @@ class post:
         return {'ctx': ctx}
 
     def PUT(self, post_id):
-        return web.data()
+        pass
 
     def POST(self, post_id):
-        pass
+        try:
+            data = json.loads(web.data())
+        except ValueError:
+            data = web.input()
+        r.post_update(post_id, data['post_title'], data['post_body'])
 
     def DELETE(self, post_id):
         r.post_del(post_id)
@@ -150,7 +154,11 @@ class comment:
         return web.data()
 
     def POST(self, post_id, comm_id):
-        return web.data()
+        try:
+            data = json.loads(web.data())
+        except ValueError:
+            data = web.input()
+        r.comm_update(post_id, comm_id, data['comm_body'])
 
     def DELETE(self, post_id, comm_id):
         r.comm_del(post_id, comm_id)
