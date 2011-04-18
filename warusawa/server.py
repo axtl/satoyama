@@ -124,7 +124,11 @@ class comments:
         return web.data()
 
     def POST(self, post_id):
-        return web.data()
+        try:
+            data = json.loads(web.data())
+        except ValueError:
+            data = web.input()
+        r.comm_add(post_id, data['comm_body'])
 
     def DELETE(self, post_id):
         r.comms_del(post_id)

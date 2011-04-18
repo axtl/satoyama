@@ -59,6 +59,16 @@ def comms_del(pid):
     r.delete(post_key(pid, 'comm.list', raw=True))
 
 
+def comm_add(pid, body):
+    # increment per-post comment counter
+    ncid = r.incr(post_key(pid, 'next.comm.id', raw=True))
+    # store in the per-post list of active comments
+    r.lpush(post_key(pid, 'comm.list', raw=True), ncid)
+    # and store the post
+    r[comm(pid, ncid, raw=True)] = body
+    r[comm_key(pid, ncid, 'date', raw=True)] = datetime.utcnow()
+
+
 def comm_del(pid, cid):
     r.delete(comm(pid, cid, raw=True))
     r.delete(comm_key(pid, cid, 'date', raw=True))
