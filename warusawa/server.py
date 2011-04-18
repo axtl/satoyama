@@ -65,9 +65,6 @@ class posts:
         ctx = {'num_posts': num, 'posts': posts}
         return {'ctx': ctx}
 
-    def PUT(self):
-        return web.data()
-
     def POST(self):
         try:
             data = json.loads(web.data())
@@ -101,9 +98,6 @@ class post:
             'numc': numc}
         return {'ctx': ctx}
 
-    def PUT(self, post_id):
-        pass
-
     def POST(self, post_id):
         try:
             data = json.loads(web.data())
@@ -134,9 +128,6 @@ class comments:
         ctx = {'post_id': post_id, 'comments': comments}
         return {'ctx': ctx}
 
-    def PUT(self, post_id):
-        return web.data()
-
     def POST(self, post_id):
         try:
             data = json.loads(web.data())
@@ -166,9 +157,6 @@ class comment:
             'comm_body': body,
             'comm_date': date}
         return {'ctx': ctx}
-
-    def PUT(self, post_id, comm_id):
-        return web.data()
 
     def POST(self, post_id, comm_id):
         try:

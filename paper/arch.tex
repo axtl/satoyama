@@ -10,20 +10,21 @@ Web applications can greatly benefit from the availability of an Application Pro
 
 While simple, the sample application built for this study can benefit from an API. With two clients and two servers, an API is the easiest way to mix and match components. An API also helps ensure feature parity between the two version of the application, and thus helps ensure the comparison is fair.
 
-It turns out that, from the multitude of existing approaches to building software APIs, one in particular suits web applications: Representational State Transfer~\cite{restful} (REST). This model leverages existing HTTP verbs~\cite{rfc2616} and encourages the use of meaningful URIs that are as adequate for human consumption as they are for programatic access. REST also fits well with the proposed application, as posts and comments neatly map to \emph{Resources}. Table~\ref{tab:api} lists the API. The combination of a HTTP verb and an URI immediately informs what the action will be --- this is one of the main benefits of using REST for API design.
+It turns out that, from the multitude of existing approaches to building software APIs, one in particular suits web applications: Representational State Transfer~\cite{restful} (REST). This model leverages existing HTTP verbs~\cite{rfc2616} and encourages the use of meaningful URIs that are as adequate for human consumption as they are for programatic access. REST also fits well with the proposed application, as posts and comments neatly map to \emph{Resources}. Table~\ref{tab:api} lists the API. The combination of a HTTP verb and an URI immediately informs what the action will be --- this is one of the main benefits of using REST for API design. However, as \texttt{PUT} is neither universally supported by servers, nor does it provide --- in this sample application at least --- functionality that cannot be achieved via \texttt{POST}, it has not been implemented.
 
 \begin{table*}
+    \centering
     % \begin{tabular}{l p{1.15in} p{1.15in} p{1.15in} p{1in}}
-    \begin{tabular}{*{5}l}
+    \begin{tabular}{*{4}l}
         \toprule
-        \multicolumn{1}{c}{\textbf{URI}} & \multicolumn{4}{c}{\textbf{HTTP 1.1 Methods}} \\
-        \cmidrule{2-5}
-        & GET & PUT & POST & DELETE \\
+        \multicolumn{1}{c}{\textbf{URI}} & \multicolumn{3}{c}{\textbf{HTTP 1.1 Methods}} \\
+        \cmidrule{2-4}
+        & GET & POST & DELETE \\
         \midrule
-        /posts/ & get posts & replace posts & create post & delete posts \\
-        /post-\{id\}/ & get post & create/update post & update post & delete post \\
-        /post-\{id\}/comments/ & get comms. & replace comms. & create comm. & delete comms. \\
-        /post-\{id\}/comment-\{id\}/ & get comm. & create/update comm. & update comm. & delete comm. \\
+        /posts/ & get posts & create post & delete posts \\
+        /posts/\{pid\}/ & get post & update post & delete post \\
+        /posts/\{pid\}/comments/ & get comments & create comments & delete comments \\
+        /post/\{pid\}/comments/\{cid\}/ & get comment & update comment & delete comment \\
         \bottomrule
     \end{tabular}
     \caption{API methods}
