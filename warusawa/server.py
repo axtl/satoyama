@@ -113,7 +113,7 @@ class post:
 
 class comments:
 
-    @r.inredis
+    @inredis
     @mimerender(default = 'html',
                 html=html_comments,
                 json=render_json,
@@ -143,7 +143,7 @@ class comments:
 
 class comment:
 
-    @r.inredis
+    @inredis
     @mimerender(default = 'html',
                 html=html_comment,
                 json=render_json,
