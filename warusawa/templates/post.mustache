@@ -14,21 +14,21 @@
 </head>
 
 <body>
-  <div id="container">
     <header>
         <h1><a href="/">Satoyama</a></h1>
     </header>
-    <div id="main" role="main">
-        <h2><a href="..">Back to the list of posts</a></h2>
-        <h3>{{post_title}}</h3>
-        <div class="entry">
-            <p class="post_body">{{post_body}}</p>
+    <div id="container">
+        <div id="main" role="main">
+            <h2><a href="..">Back to the list of posts</a></h2>
+            <h3>{{post_title}}</h3>
+            <div class="entry">
+                <p class="post_body">{{post_body}}</p>
+            </div>
+            <p><a href="comments/">{{numc}} Comment{{#is_plural}}s{{/is_plural}}</a></p>
         </div>
-        <p><a href="comments/">{{numc}} Comment{{#is_plural}}s{{/is_plural}}</a></p>
-    </div>
-  </div> <!--! end of #container -->
-  <footer>
-  </footer>
+    </div> <!--! end of #container -->
+    <footer>
+    </footer>
 </body>
 
 <style type="text/css">
@@ -107,7 +107,10 @@
 
     /** PRIMARY STYLES **/
     html, body {height: 100%;}
-    #container {min-height: 100%;}
+    #container {
+        min-height: 100%;
+        width: 1280px;
+    }
     header {
         display: block;
         background-color: #c48dff;
@@ -141,10 +144,36 @@
 
     #main {
         height: 100%;
+        width: 720px;
+        float: left;
         overflow:auto;
+        padding-left: 2em;
         padding-bottom: 3em; /* must be same height as the footer */
     }
-    
+
+    #sidebar {
+        float: right;
+        width: 400px;
+        margin-top: 0;
+    }
+
+    #sidebar h2 {
+        margin-left: 0;
+    }
+
+    #sidebar input {
+        line-height: 1.25em;
+        margin-bottom: 1em;
+    }
+
+    #sidebar input[type='text'], #sidebar textarea {
+        width: 99%;
+    }
+
+    #sidebar input[type='submit'] {
+        float: right;
+    }
+
     .comment_body, .post_body {
         font-size: 1em;
         width: 30em;
@@ -152,7 +181,7 @@
         margin: 0;
         padding: .25em 0;
     }
-    
+
     .greeting {
         display: block;
         color: #c48dff;
