@@ -1,3 +1,4 @@
+from datetime import datetime
 import redis
 
 # redis setup
@@ -27,6 +28,19 @@ def posts_del():
     for pid in post_idxs:
         post_del(pid)
     r.delete('post.list')
+
+
+def post_add(title, body):
+    # increment the global post id counter
+    npid = r.incr('next.post.id')
+    # store in the posts list
+    r.lpush('post.list', npid)
+    # post title
+    r[post_key(npid, 'title', raw=True)] = title
+    # post body
+    r[post_key(npid, 'body', raw=True)] = body
+    # post date
+    r[post_key(npid, 'date', raw=True)] = datetime.utcnow()
 
 
 def post_del(pid):

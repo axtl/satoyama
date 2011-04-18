@@ -65,6 +65,16 @@ class posts:
         ctx = {'num_posts': num, 'posts': posts}
         return {'ctx': ctx}
 
+    def PUT(self):
+        return web.data()
+
+    def POST(self):
+        try:
+            data = json.loads(web.data())
+        except:
+            data = web.input()
+        return repr(data)
+
     def DELETE(self):
         r.posts_del()
 
@@ -82,6 +92,16 @@ class post:
         numc = r.len(r.post_key(post_id, 'comm.list', raw=True))
         ctx = {'post_id': post_id, 'title': title, 'body': body, 'numc': numc}
         return {'ctx': ctx}
+
+    def PUT(self, post_id):
+        return web.data()
+
+    def POST(self, post_id):
+        try:
+            data = json.loads(web.data())
+        except ValueError:
+            data = web.input()
+        r.post_add(data['post_title'], data['post_body'])
 
     def DELETE(self, post_id):
         r.post_del(post_id)
@@ -104,6 +124,12 @@ class comments:
         ctx = {'post_id': post_id, 'comments': comments}
         return {'ctx': ctx}
 
+    def PUT(self, post_id):
+        return web.data()
+
+    def POST(self, post_id):
+        return web.data()
+
     def DELETE(self, post_id):
         r.comms_del(post_id)
 
@@ -119,6 +145,12 @@ class comment:
         body = r.comm(post_id, comm_id)
         ctx = {'post_id': post_id, 'comm_id': comm_id, 'body': body}
         return {'ctx': ctx}
+
+    def PUT(self, post_id, comm_id):
+        return web.data()
+
+    def POST(self, post_id, comm_id):
+        return web.data()
 
     def DELETE(self, post_id, comm_id):
         r.comm_del(post_id, comm_id)
