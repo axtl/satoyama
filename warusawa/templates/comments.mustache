@@ -32,6 +32,13 @@
                 {{/comments}}
             </ol>
         </div>
+        <div id="sidebar" role="sidebar">
+            <h2>New comment:</h2>
+            <form name="new_comm" method="POST">
+                <div><textarea rows="10" id="post_body" name="post_body"/></textarea></div>
+                <div><input type="submit" value="Add Comment" /></div>
+            </form>
+        </div>
     </div> <!--! end of #container -->
     <footer>
     </footer>
@@ -194,6 +201,8 @@
         font-size: xx-large;
         font-weight: bold;
         text-align: center;
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 20%;
     }
 
@@ -210,18 +219,6 @@
         font-size: 1.5em;
         margin-left: 10%;
         margin-top: .5em;
-    }
-    footer {
-        display: block;
-        color: white;
-        text-transform: lowercase;
-        font-weight: normal;
-        background-color: #fa2573;
-        text-align: center;
-        position: relative;
-        margin-top: -3em; /* negative value of footer height */
-        height: 3em;
-        clear: both;
     }
     /** === **/
     .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
