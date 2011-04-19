@@ -123,7 +123,7 @@ class comments:
         comments = []
         for cid in comm_idxs:
             body = r.comm(post_id, cid)
-            date = r.comm_key(post_id, cid, 'date')
+            date = r.comm_key(post_id, cid, 'comm_date')
             comments.append({'url': cid, 'comm_body': body, 'comm_date': date})
         ctx = {'post_id': post_id, 'comments': comments}
         return {'ctx': ctx}
