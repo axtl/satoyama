@@ -11,6 +11,7 @@ get = (req, res) ->
     loaded_posts = []
     # Retrieve the list of post ids
     r.c.lrange('post.list', 0, -1, (err, post_list) ->
+        u.error(res) if err
         done = 0
         # Retrieve information on all stored posts
         for post in post_list
