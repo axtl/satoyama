@@ -1,3 +1,6 @@
+# #_post_ Resource
+# ####This module handles all HTTP actions on the _post_ resource.
+
 # Helpers for Redis interaction
 r = require './red'
 # Helpers for general response handling
