@@ -20,4 +20,4 @@ exports.comm = (pid, cid) ->
     return "posts:#{pid}:comm:#{cid}"
 
 exports.comm_key = (pid, cid, segm) ->
-    return "#{root.comm(pid, cid)}:#{segm}"
+    return "#{exports.comm(pid, cid)}:#{segm}"
