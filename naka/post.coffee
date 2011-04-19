@@ -1,5 +1,3 @@
-root = exports ? this
-
 # Helpers for Redis interaction
 r = require './red'
 # Helpers for general response handling
@@ -44,6 +42,6 @@ post = (req, res, pid) ->
 del = (req, res, pid) ->
     u.ok(res, 'DELETE post')
 
-root.get_post = get
-root.post_post = post
-root.del_post = del
+exports.get_post = get
+exports.post_post = post
+exports.del_post = del
