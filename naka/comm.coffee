@@ -8,10 +8,10 @@ u = require './util'
 
 # ###HTTP GET
 get = (req, res, pid, cid) ->
-    r.c.get(r.comm(pid, cid), (err, body) ->
+    r.c.get r.comm(pid, cid), (err, body) ->
         u.error(res) if err
         # Query the store for the post title...
-        r.c.get(r.comm_key(pid, cid, 'comm_date'), (err, date) ->
+        r.c.get r.comm_key(pid, cid, 'comm_date'), (err, date) ->
             u.error(res) if err
             Comm =
                 post_id: pid
@@ -19,10 +19,6 @@ get = (req, res, pid, cid) ->
                 comm_body: body
                 comm_id: cid
             u.ok(res, Comm)
-        )
-    )
-
-# {"post_id": "7", "comm_date": "2011-04-18 21:56:45.594984", "comm_body": "A comment for post 7", "comm_id": "1"}
 
 # ###HTTP POST
 post = (req, res, pid, cid) ->

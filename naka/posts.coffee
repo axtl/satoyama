@@ -10,27 +10,23 @@ u = require './util'
 get = (req, res) ->
     loaded_posts = []
     # Retrieve the list of post ids
-    r.c.lrange('post.list', 0, -1, (err, post_list) ->
+    r.c.lrange 'post.list', 0, -1, (err, post_list) ->
         u.error(res) if err
         done = 0
         # Retrieve information on all stored posts
-        for post in post_list
+        for pid in post_list
             done++
-            do (post, done) ->
-                Post =
-                    post_title: null
-                    post_date: null
-                    url: post
-
-                # Query the store for the post title...
-                r.c.get(r.post_key(post, 'post_title'), (err, title) ->
+            do (pid, done) ->
+                # Query the store for the post title and date
+                r.c.get r.post_key(pid, 'post_title'), (err, title) ->
                     u.error(res) if err
-                    Post.post_title = title
-                    # ... and the post date
-                    r.c.get(r.post_key(post, 'post_date'), (err, date) ->
+                    r.c.get r.post_key(pid, 'post_date'), (err, date) ->
                         u.error(res) if err
-                        Post.post_date = date
                         # Store into the local list of retrieved posts
+                        Post =
+                            post_title: title
+                            post_date: date
+                            url: pid
                         loaded_posts.push(Post)
                         # If this was the last item in our async queue, answer
                         if done == post_list.length
@@ -38,9 +34,6 @@ get = (req, res) ->
                                 posts: loaded_posts
                                 num_posts: post_list.length
                             u.ok(res, answer)
-                    )
-                )
-    )
 
 # ###HTTP POST
 post = (req, res) ->

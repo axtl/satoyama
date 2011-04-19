@@ -7,35 +7,25 @@ r = require './red'
 u = require './util'
 
 # ###HTTP GET
-get = (req, res, post_id) ->
-    r.c.get(r.post_key(post_id), (err, post) ->
-        Post =
-            post_id: post_id
-            post_title: null
-            post_date: null
-            post_body: null
-            numc: 0
-
-        # Query the store for the post title...
-        r.c.get(r.post_key(post_id, 'post_title'), (err, title) ->
+get = (req, res, pid) ->
+    r.c.get r.post_key(pid), (err, post) ->
+        # Query the store for the post subkeys
+        r.c.get r.post_key(pid, 'post_title'), (err, title) ->
             u.error(res) if err
-            Post.post_title = title
-            # ... and the post date
-            r.c.get(r.post_key(post_id, 'post_date'), (err, date) ->
+            r.c.get r.post_key(pid, 'post_date'), (err, date) ->
                 u.error(res) if err
-                Post.post_date = date
-                r.c.get(r.post_key(post_id, 'post_body'), (err, body) ->
+                r.c.get r.post_key(pid, 'post_body'), (err, body) ->
                     u.error(res) if err
-                    Post.post_body = body
-                    r.c.llen(r.post_key(post_id, 'comm.list'), (err, numc) ->
+                    r.c.llen r.post_key(pid, 'comm.list'), (err, numc) ->
                         u.error(res) if err
-                        Post.numc = numc
+                        # Return the requested post object
+                        Post =
+                            post_id: pid
+                            post_title: title
+                            post_date: date
+                            post_body: body
+                            numc: numc
                         u.ok(res, Post)
-                    )
-                )
-            )
-        )
-    )
 
 # ##HTTP POST
 post = (req, res, pid) ->

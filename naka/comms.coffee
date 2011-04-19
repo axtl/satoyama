@@ -10,7 +10,7 @@ u = require './util'
 get = (req, res, pid) ->
     loaded_comms = []
     # Retrieve the list of post ids
-    r.c.lrange(r.post_key(pid, 'comm.list'), 0, -1, (err, comm_list) ->
+    r.c.lrange r.post_key(pid, 'comm.list'), 0, -1, (err, comm_list) ->
         u.error(res) if err
         done = 0
         # Retrieve information on all stored posts
@@ -23,11 +23,11 @@ get = (req, res, pid) ->
                     comm_body: null
 
                 # Query the store for the comment date...
-                r.c.get(r.comm_key(pid, cid, 'comm_date'), (err, date) ->
+                r.c.get r.comm_key(pid, cid, 'comm_date'), (err, date) ->
                     u.error(res) if err
                     Comm.comm_date = date
                     # ... and the comment body
-                    r.c.get(r.comm(pid, cid), (err, body) ->
+                    r.c.get r.comm(pid, cid), (err, body) ->
                         u.error(res) if err
                         Comm.comm_body = body
                         # Store into the local list of retrieved posts
@@ -38,9 +38,6 @@ get = (req, res, pid) ->
                                 post_id: pid
                                 comments: loaded_comms
                             u.ok(res, answer)
-                    )
-                )
-    )
 
 # ###HTTP POST
 post = (req, res, pid) ->
