@@ -8,20 +8,21 @@ u = require './util'
 # Helpers for handling comments
 comms_mod = require './comms'
 
+
 # ###HTTP GET
 get = (req, res, pid) ->
     r.c.exists r.post_key(pid, 'post_date'), (err, exists) ->
-        u.error res if err
+        u.error res, err if err
         u.notfound res if not exists
         # Query the store for the post subkeys
         r.c.get r.post_key(pid, 'post_title'), (err, title) ->
-            u.error res if err
+            u.error res, err if err
             r.c.get r.post_key(pid, 'post_date'), (err, date) ->
-                u.error res if err
+                u.error res, err if err
                 r.c.get r.post_key(pid, 'post_body'), (err, body) ->
-                    u.error res if err
+                    u.error res, err if err
                     r.c.llen r.post_key(pid, 'comm.list'), (err, numc) ->
-                        u.error res if err
+                        u.error res, err if err
                         # Return the requested post object
                         Post =
                             post_id: pid
@@ -31,12 +32,15 @@ get = (req, res, pid) ->
                             numc: numc
                         u.ok res, Post
 
+
 # ##HTTP POST
 post = (req, res, pid) ->
     content = ''
+    # Register event handler to receive all mesage chunks
     req.addListener 'data', (chunk) ->
         content += chunk
 
+    # End of transmission, parse content and update the post
     req.addListener 'end', ->
         up_post = JSON.parse(content)
         post_update pid, up_post.post_title, up_post.post_body
@@ -46,20 +50,23 @@ post = (req, res, pid) ->
 # ##HTTP DELETE
 del = (req, res, pid) ->
     # Return to caller immediately
-    u.ok res, 'OK'
+    u.ok res
     # Async delete
     post_delete pid
 
+
 post_add = (post_title, post_body) ->
     r.c.incr 'next.post.id', (err, npid) ->
-        u.error res if err
+        u.error res, err if err
         r.c.lpush 'post.list', npid
         post_update(pid, post_title, post_body)
+
 
 post_update = (pid, post_title, post_body) ->
     r.c.set r.post_key(pid, 'post_title'), post_title
     r.c.set r.post_key(pid, 'post_body'), post_body
     r.c.set r.post_key(pid, 'post_date'), new Date().toUTCString()
+
 
 post_delete = (pid) ->
     # Remove list entry first, post should no longer be retrievable
@@ -69,6 +76,7 @@ post_delete = (pid) ->
     r.c.del r.post_key(pid, 'post_body')
     r.c.del r.post_key(pid, 'next.comm.id')
     comms_mod.comms_delete pid
+
 
 exports.get_post = get
 exports.post_post = post

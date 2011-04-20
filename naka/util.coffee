@@ -23,9 +23,10 @@ exports.notfound = (res, answer) ->
     res.end()
 
 # Respond with a 500 HTTP status code, indicating a server error has occurred
-exports.error = (res) ->
+exports.error = (res, err) ->
     res.writeHead 500, headers
     res.end()
+    console.log err
 
 # Helper function to set the proper headers on the response
 headers = (len=0, loc=null) ->
