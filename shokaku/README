@@ -3,5 +3,4 @@ Project:   Shokaku
 Copyright: ©2011 alexandru
 =============================================================================
 
-TODO: Describe Your Project
-
+Shokaku is the front-end to Naka, a simple web board. They were built as part of the Satoyama suite, a project to test how an end-to-end JavaScript application would compare against a more traditional one.
