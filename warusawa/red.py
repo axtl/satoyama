@@ -40,7 +40,7 @@ def post_add(title, body):
     # post body
     r[post_key(npid, 'post_body', raw=True)] = body
     # post date
-    r[post_key(npid, 'post_date', raw=True)] = datetime.utcnow()
+    r[post_key(npid, 'post_date', raw=True)] = _formed_date()
 
 
 def post_update(pid, title, body):
@@ -49,7 +49,7 @@ def post_update(pid, title, body):
     # post body
     r[post_key(pid, 'post_body', raw=True)] = body
     # post date
-    r[post_key(pid, 'post_date', raw=True)] = datetime.utcnow()
+    r[post_key(pid, 'post_date', raw=True)] = _formed_date()
 
 
 def post_del(pid):
@@ -76,13 +76,13 @@ def comm_add(pid, comm_body):
     r.lpush(post_key(pid, 'comm.list', raw=True), ncid)
     # and store the post
     r[comm(pid, ncid, raw=True)] = comm_body
-    r[comm_key(pid, ncid, 'comm_date', raw=True)] = datetime.utcnow()
+    r[comm_key(pid, ncid, 'comm_date', raw=True)] = _formed_date()
 
 
 def comm_update(pid, cid, comm_body):
     # and store the post
     r[comm(pid, cid, raw=True)] = comm_body
-    r[comm_key(pid, cid, 'comm_date', raw=True)] = datetime.utcnow()
+    r[comm_key(pid, cid, 'comm_date', raw=True)] = _formed_date()
 
 
 def comm_del(pid, cid):
@@ -102,3 +102,7 @@ def len(lkey):
 
 def has(key):
     return r.exists(key)
+
+
+def _formed_date():
+    return datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
