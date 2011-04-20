@@ -10,6 +10,11 @@ exports.ok = (res, answer) ->
     res.writeHead(200, {'Content-Type': 'application/json'})
     res.end(JSON.stringify(answer))
 
+# Respond with a 404 HTTP status code, resourcenot found
+exports.notfound = (res, answer) ->
+    res.writeHead(404)
+    res.end()
+
 # Respond with a 500 HTTP status code, indicating a server error has occurred
 exports.error = (res) ->
     res.writeHead(500)

@@ -10,32 +10,39 @@ post_mod = require './post'
 
 # ###HTTP GET
 get = (req, res) ->
-    loaded_posts = []
     # Retrieve the list of post ids
     r.c.lrange 'post.list', 0, -1, (err, post_list) ->
         u.error res if err
-        done = 0
-        # Retrieve information on all stored posts
-        for pid in post_list
-            done++
-            do (pid, done) ->
-                # Query the store for the post title and date
-                r.c.get r.post_key(pid, 'post_title'), (err, title) ->
-                    u.error res if err
-                    r.c.get r.post_key(pid, 'post_date'), (err, date) ->
+        loaded_posts = []
+        if post_list.length == 0
+            answer = 
+                posts: []
+                num_posts: 0
+            u.ok res, answer
+        else
+            done = 0
+            # Retrieve information on all stored posts
+            for pid in post_list
+                done++
+                do (pid, done) ->
+                    # Query the store for the post title and date
+                    r.c.get r.post_key(pid, 'post_title'), (err, title) ->
                         u.error res if err
-                        # Store into the local list of retrieved posts
-                        Post =
-                            post_title: title
-                            post_date: date
-                            url: pid
-                        loaded_posts.push Post
-                        # If this was the last item in our async queue, answer
-                        if done == post_list.length
-                            answer =
-                                posts: loaded_posts
-                                num_posts: post_list.length
-                            u.ok res, answer
+                        r.c.get r.post_key(pid, 'post_date'), (err, date) ->
+                            u.error res if err
+                            # Store into the local list of retrieved posts
+                            Post =
+                                post_title: title
+                                post_date: date
+                                url: pid
+                            loaded_posts.push Post
+                            # Last item in our async queue? Send answer
+                            if done == post_list.length
+                                answer =
+                                    posts: loaded_posts
+                                    num_posts: post_list.length
+                                u.ok res, answer
+
 
 # ###HTTP POST
 post = (req, res) ->

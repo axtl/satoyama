@@ -10,32 +10,39 @@ comm_mod = require './comm'
 
 # ###HTTP GET
 get = (req, res, pid) ->
-    loaded_comms = []
-    # Retrieve the list of post ids
+    r.c.exists r.post_key(pid)
+    # Retrieve the list of comment ids
     r.c.lrange r.post_key(pid, 'comm.list'), 0, -1, (err, comm_list) ->
         u.error res if err
-        done = 0
-        # Retrieve information on all stored posts
-        for cid in comm_list
-            done++
-            do (cid, done) ->
-                # Query the store for the comment subkeys
-                r.c.get r.comm_key(pid, cid, 'comm_date'), (err, date) ->
-                    u.error res if err
-                    r.c.get r.comm(pid, cid), (err, body) ->
+        loaded_comms = []
+        if comm_list.length == 0
+            answer =
+                post_id: pid
+                comments: []
+            u.ok res, answer
+        else
+            done = 0
+            # Retrieve information on all stored posts
+            for cid in comm_list
+                done++
+                do (cid, done) ->
+                    # Query the store for the comment subkeys
+                    r.c.get r.comm_key(pid, cid, 'comm_date'), (err, date) ->
                         u.error res if err
-                        # Store into the local list of retrieved posts
-                        Comm =
-                            url: cid
-                            comm_date: date
-                            comm_body: body
-                        loaded_comms.push(Comm)
-                        # If this was the last item in our async queue, answer
-                        if done == comm_list.length
-                            answer =
-                                post_id: pid
-                                comments: loaded_comms
-                            u.ok res, answer
+                        r.c.get r.comm(pid, cid), (err, body) ->
+                            u.error res if err
+                            # Store into the local list of retrieved posts
+                            Comm =
+                                url: cid
+                                comm_date: date
+                                comm_body: body
+                            loaded_comms.push(Comm)
+                            # Last item in our async queue? Send answer
+                            if done == comm_list.length
+                                answer =
+                                    post_id: pid
+                                    comments: loaded_comms
+                                u.ok res, answer
 
 # ###HTTP POST
 post = (req, res, pid) ->

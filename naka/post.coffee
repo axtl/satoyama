@@ -10,7 +10,9 @@ comms_mod = require './comms'
 
 # ###HTTP GET
 get = (req, res, pid) ->
-    r.c.get r.post_key(pid), (err, post) ->
+    r.c.exists r.post_key(pid, 'post_date'), (err, exists) ->
+        u.error res if err
+        u.notfound res if not exists
         # Query the store for the post subkeys
         r.c.get r.post_key(pid, 'post_title'), (err, title) ->
             u.error res if err

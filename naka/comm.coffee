@@ -8,17 +8,20 @@ u = require './util'
 
 # ###HTTP GET
 get = (req, res, pid, cid) ->
-    r.c.get r.comm(pid, cid), (err, body) ->
+    r.c.exists r.comm(pid, cid), (err, exists) ->
         u.error res if err
-        # Query the store for the post title...
-        r.c.get r.comm_key(pid, cid, 'comm_date'), (err, date) ->
+        u.notfound res if not exists
+        r.c.get r.comm(pid, cid), (err, body) ->
             u.error res if err
-            Comm =
-                post_id: pid
-                comm_date: date
-                comm_body: body
-                comm_id: cid
-            u.ok res, Comm
+            # Query the store for the post title...
+            r.c.get r.comm_key(pid, cid, 'comm_date'), (err, date) ->
+                u.error res if err
+                Comm =
+                    post_id: pid
+                    comm_date: date
+                    comm_body: body
+                    comm_id: cid
+                u.ok res, Comm
 
 # ###HTTP POST
 post = (req, res, pid, cid) ->
