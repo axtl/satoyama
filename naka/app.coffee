@@ -39,9 +39,9 @@ comm_routes = clutch.route404([['GET $', comm.get_comm],
 # as arguments to the handler function.
 urls = clutch.route404([['GET /$', index],
                         ['* /posts/?$', posts_routes],
-                        ['* /posts/(\\d)/?$', post_routes],
-                        ['* /posts/(\\d)/comments/?$', comms_routes],
-                        ['* /posts/(\\d)/comments/(\\d)/?$', comm_routes]])
+                        ['* /posts/(\\d+)/?$', post_routes],
+                        ['* /posts/(\\d+)/comments/?$', comms_routes],
+                        ['* /posts/(\\d+)/comments/(\\d+)/?$', comm_routes]])
 
 # make the URLs available to importing modules
 exports.urls = urls
