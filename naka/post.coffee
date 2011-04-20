@@ -1,5 +1,5 @@
-# #_post_ Resource
-# ####This module handles all HTTP actions on the _post_ resource.
+# # _post_ Resource
+# #### This module handles all HTTP actions on the _post_ resource.
 
 # Helpers for Redis interaction
 r = require './red'
@@ -9,7 +9,7 @@ u = require './util'
 comms_mod = require './comms'
 
 
-# ###HTTP GET
+# ### HTTP GET
 get = (req, res, pid) ->
     r.c.exists r.post_key(pid, 'post_date'), (err, exists) ->
         u.error res, err if err
@@ -33,7 +33,7 @@ get = (req, res, pid) ->
                         u.ok res, Post
 
 
-# ##HTTP POST
+# ### HTTP POST
 post = (req, res, pid) ->
     content = ''
     # Register event handler to receive all mesage chunks
@@ -47,7 +47,7 @@ post = (req, res, pid) ->
         u.ok res
 
 
-# ##HTTP DELETE
+# ### HTTP DELETE
 del = (req, res, pid) ->
     # Return to caller immediately
     u.ok res
@@ -55,6 +55,7 @@ del = (req, res, pid) ->
     post_delete pid
 
 
+# #### Add a post
 post_add = (post_title, post_body) ->
     r.c.incr 'next.post.id', (err, npid) ->
         u.error res, err if err
@@ -62,12 +63,14 @@ post_add = (post_title, post_body) ->
         post_update(pid, post_title, post_body)
 
 
+# #### Update a post
 post_update = (pid, post_title, post_body) ->
     r.c.set r.post_key(pid, 'post_title'), post_title
     r.c.set r.post_key(pid, 'post_body'), post_body
     r.c.set r.post_key(pid, 'post_date'), new Date().toUTCString()
 
 
+# #### Delete a post
 post_delete = (pid) ->
     # Remove list entry first, post should no longer be retrievable
     r.c.lrem 'post.list', 0, pid
@@ -78,6 +81,7 @@ post_delete = (pid) ->
     comms_mod.comms_delete pid
 
 
+# Export to importing modules
 exports.get_post = get
 exports.post_post = post
 exports.del_post = del

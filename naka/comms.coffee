@@ -1,5 +1,5 @@
-# #_posts_ Resource
-# ####This module handles all HTTP actions on the _posts_ resource.
+# # _comments_ Resource
+# #### This module handles all HTTP actions on the _comments_ resource.
 
 # Helpers for Redis interaction
 r = require './red'
@@ -9,7 +9,7 @@ u = require './util'
 comm_mod = require './comm'
 
 
-# ###HTTP GET
+# ### HTTP GET
 get = (req, res, pid) ->
     r.c.exists r.post_key(pid)
     # Retrieve the list of comment ids
@@ -46,7 +46,7 @@ get = (req, res, pid) ->
                                 u.ok res, answer
 
 
-# ###HTTP POST
+# ### HTTP POST
 post = (req, res, pid) ->
     content = ''
     # Register event handler to receive all mesage chunks
@@ -60,7 +60,7 @@ post = (req, res, pid) ->
         u.ok res
 
 
-# ###HTTP DELETE
+# ### HTTP DELETE
 del = (req, res, pid) ->
     # Return to caller immediately
     u.ok res
@@ -68,6 +68,7 @@ del = (req, res, pid) ->
     comms_delete pid
 
 
+# #### Delete all comments for given post
 comms_delete = (pid) ->
     r.c.lrange r.post_key(pid, 'comm.list'), 0, -1, (err, comm_list) ->
         done = 0
@@ -79,6 +80,7 @@ comms_delete = (pid) ->
                     r.c.del r.post_key(pid, 'comm.list')
 
 
+# Export to importing modules
 exports.get_comms = get
 exports.post_comms = post
 exports.del_comms = del

@@ -1,5 +1,5 @@
-# #_posts_ Resource
-# ####This module handles all HTTP actions on the _posts_ resource.
+# # _posts_ Resource
+# #### This module handles all HTTP actions on the _posts_ resource.
 
 # Helpers for Redis interaction
 r = require './red'
@@ -9,7 +9,7 @@ u = require './util'
 post_mod = require './post'
 
 
-# ###HTTP GET
+# ### HTTP GET
 get = (req, res) ->
     # Retrieve the list of post ids
     r.c.lrange 'post.list', 0, -1, (err, post_list) ->
@@ -45,7 +45,7 @@ get = (req, res) ->
                                 u.ok res, answer
 
 
-# ###HTTP POST
+# ### HTTP POST
 post = (req, res) ->
     content = ''
     # Register event handler to receive all mesage chunks
@@ -59,11 +59,11 @@ post = (req, res) ->
         u.ok res
 
 
-# ###HTTP DELETE
+# ### HTTP DELETE
 del = (req, res) ->
     # Return to caller immediately
     u.ok res
-    # Delete async
+    # Async delete
     r.c.lrange 'post.list', 0, -1, (err, post_list) ->
         console.log err if err
         done = 0
