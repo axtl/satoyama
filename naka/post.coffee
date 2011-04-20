@@ -42,6 +42,14 @@ del = (req, res, pid) ->
     # Async delete
     post_delete pid
 
+post_add = (post_title, post_body) ->
+    r.c.incr 'next.post.id', (err, npid) ->
+        u.error res if err
+        r.c.lpush 'post.list', npid
+        r.c.set r.post_key(npid, 'post_title'), post_title
+        r.c.set r.post_key(npid, 'post_body'), post_body
+        r.c.set r.post_key(npid, 'post_date'), new Date().toUTCString()
+
 post_delete = (pid) ->
     # Remove list entry first, post should no longer be retrievable
     r.c.lrem 'post.list', 0, pid
@@ -54,4 +62,5 @@ post_delete = (pid) ->
 exports.get_post = get
 exports.post_post = post
 exports.del_post = del
+exports.post_add = post_add
 exports.post_delete = post_delete
