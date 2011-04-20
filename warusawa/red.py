@@ -53,11 +53,12 @@ def post_update(pid, title, body):
 
 
 def post_del(pid):
+    # Remove list entry first, post should no longer be retrievable
+    r.lrem('post.list', pid)
     r.delete(post_key(pid, 'post_title', raw=True))
     r.delete(post_key(pid, 'post_body', raw=True))
     r.delete(post_key(pid, 'post_date', raw=True))
     r.delete(post_key(pid, 'next.comm.id', raw=True))
-    r.lrem('post.list', pid)
     comms_del(pid)
 
 
@@ -85,9 +86,10 @@ def comm_update(pid, cid, comm_body):
 
 
 def comm_del(pid, cid):
+    # Remove list entry first, post should no longer be retrievable
+    r.lrem(post_key(pid, 'comm.list', raw=True), cid)
     r.delete(comm(pid, cid, raw=True))
     r.delete(comm_key(pid, cid, 'comm_date', raw=True))
-    r.lrem(post_key(pid, 'comm.list', raw=True), cid)
 
 
 def get_list(lkey):
