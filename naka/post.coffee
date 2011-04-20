@@ -33,7 +33,15 @@ get = (req, res, pid) ->
 
 # ##HTTP POST
 post = (req, res, pid) ->
-    u.ok res, 'POST post'
+    content = ''
+    req.addListener 'data', (chunk) ->
+        content += chunk
+
+    req.addListener 'end', ->
+        up_post = JSON.parse(content)
+        post_update pid, up_post.post_title, up_post.post_body
+        u.ok res
+
 
 # ##HTTP DELETE
 del = (req, res, pid) ->
@@ -46,9 +54,12 @@ post_add = (post_title, post_body) ->
     r.c.incr 'next.post.id', (err, npid) ->
         u.error res if err
         r.c.lpush 'post.list', npid
-        r.c.set r.post_key(npid, 'post_title'), post_title
-        r.c.set r.post_key(npid, 'post_body'), post_body
-        r.c.set r.post_key(npid, 'post_date'), new Date().toUTCString()
+        post_update(pid, post_title, post_body)
+
+post_update = (pid, post_title, post_body) ->
+    r.c.set r.post_key(pid, 'post_title'), post_title
+    r.c.set r.post_key(pid, 'post_body'), post_body
+    r.c.set r.post_key(pid, 'post_date'), new Date().toUTCString()
 
 post_delete = (pid) ->
     # Remove list entry first, post should no longer be retrievable

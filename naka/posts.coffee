@@ -46,14 +46,14 @@ get = (req, res) ->
 
 # ###HTTP POST
 post = (req, res) ->
-    content = ""
-    req.addListener "data", (chunk) ->
+    content = ''
+    req.addListener 'data', (chunk) ->
         content += chunk
 
-    req.addListener "end", -> 
+    req.addListener 'end', -> 
         new_post = JSON.parse(content)
         post_mod.post_add new_post.post_title, new_post.post_body
-        u.ok(res)
+        u.ok res
 
 # ###HTTP DELETE
 del = (req, res) ->
