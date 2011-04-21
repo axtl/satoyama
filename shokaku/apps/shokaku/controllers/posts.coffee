@@ -9,7 +9,7 @@ Shokaku.postsController = SC.ArrayController.create(
         records.invoke('destroy')
 
         selIndex = indexes.get 'min' - 1
-        if selIndex < 0 then selIndex = 0 
+        if selIndex < 0 then selIndex = 0
         this.selectObject(this.objectAt(selIndex))
 
     addPost: () ->
@@ -20,8 +20,5 @@ Shokaku.postsController = SC.ArrayController.create(
             'post_body': new_post.post_body
             'post_date': new Date().toUTCString()
 
-
-        # # select new task in UI
-        # this.selectObject(task);
         YES
 )
