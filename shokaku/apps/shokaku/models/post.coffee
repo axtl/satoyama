@@ -4,7 +4,9 @@ Shokaku.Post = SC.Record.extend
     post_title: SC.Record.attr(String)
     post_body: SC.Record.attr(String)
     post_date: SC.Record.attr(Date)
-    
+
     comm_list: SC.Record.toMany 'Shokaku.Comment'
         inverse: 'post'
         isMaster: YES
+
+    # numc: comm_list.get 'length'
