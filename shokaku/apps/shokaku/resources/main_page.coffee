@@ -14,7 +14,6 @@ Shokaku.mainPage = SC.Page.design
             autoresizeBehavior: SC.RESIZE_TOP_LEFT
             topLeftMinThickness: 240
             bottomRightMinThickness: 720
-            # contentView: SC.ListView.design({})
 
             # Left side shows a list of posts
             topLeftView: SC.ScrollView.design
@@ -26,12 +25,12 @@ Shokaku.mainPage = SC.Page.design
                     contentBinding: 'Shokaku.postsController.arrangedObjects'
                     selectionBinding: 'Shokaku.postsController.selection'
                     contentValueKey: 'post_title'
-                    rowHeight: 24
+                    rowHeight: 48
                     canEditContent: YES
                     canDeleteContent: YES
 
             dividerView: SC.SplitDividerView.design({})
-            
+
             # tab between post body and comments
             bottomRightView: SC.TabView.design
                 layout: {top: 48, right: 0, bottom: 36, left: 320}
@@ -49,21 +48,19 @@ Shokaku.mainPage = SC.Page.design
 
     postView: SC.ScrollView.design
         hasHorizontalScroller: NO
-        layout: {top: 48, left: 24, right: 24}
+        layout: {top: 48, left: 24, right: 24, bottom: 48}
 
         contentView: SC.LabelView.design
-            # layout: {top: 24, right: 24, left: 24}
             valueBinding: 'Shokaku.postController.post_body'
 
     commsView: SC.ScrollView.design
         hasHorizontalScroller: NO
-        layout: {top: 48, left: 24, right: 24}
+        layout: {top: 48, left: 24, right: 24, bottom: 48}
 
         contentView: SC.ListView.design
-            # layout: {top: 48, right: 24, left: 24}
             contentBinding: 'Shokaku.commsController.arrangedObjects'
             selectionBinding: 'Shokaku.commsController.selection'
             contentValueKey: 'comm_body'
-            # rowHeight: 24
-            canEditContent: NO
-            canDeleteContent: NO
+            rowHeight: 36
+            canEditContent: YES
+            canDeleteContent: YES

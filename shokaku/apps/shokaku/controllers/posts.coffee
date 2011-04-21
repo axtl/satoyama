@@ -6,7 +6,7 @@ Shokaku.postsController = SC.ArrayController.create(
         records = indexes.map (idx) =>
             this.objectAt(idx)
 
-        records.invoke('destroy')
+        records.invoke 'destroy'
 
         selIndex = indexes.get 'min' - 1
         if selIndex < 0 then selIndex = 0
