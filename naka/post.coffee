@@ -60,7 +60,7 @@ post_add = (post_title, post_body) ->
     r.c.incr 'next.post.id', (err, npid) ->
         u.error res, err if err
         r.c.lpush 'post.list', npid
-        post_update(pid, post_title, post_body)
+        post_update(npid, post_title, post_body)
 
 
 # #### Update a post
