@@ -11,8 +11,7 @@ Shokaku.main = ->
         # TODO: Set the content property on your primary controller
         # ex: Shokaku.contactsController.set('content', Shokaku.contacts);
         # Shokaku.rootController.populate();
-        query = SC.Query.local Shokaku.Post, {orderBy: 'post_id DESC'}
-        posts = Shokaku.store.find(query)
+        posts = Shokaku.store.find(Shokaku.POSTS_QUERY)
         Shokaku.postsController.set 'content', posts
 
 window.main = ->

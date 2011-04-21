@@ -5,3 +5,6 @@
 
 # Add initial buildfile information here
 config :all, :required => :sproutcore
+
+# SET UP PROXY
+proxy "/posts", :to => "localhost:8080/posts"
