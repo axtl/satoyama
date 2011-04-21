@@ -12,35 +12,35 @@ Server Port:            8080
 Document Path:          /posts/
 Document Length:        0 bytes
 
-Concurrency Level:      1
-Time taken for tests:   1.298 seconds
+Concurrency Level:      10
+Time taken for tests:   1.310 seconds
 Complete requests:      1000
 Failed requests:        0
 Write errors:           0
 Total transferred:      38000 bytes
 Total POSTed:           3674000
 HTML transferred:       0 bytes
-Requests per second:    770.17 [#/sec] (mean)
-Time per request:       1.298 [ms] (mean)
-Time per request:       1.298 [ms] (mean, across all concurrent requests)
-Transfer rate:          28.58 [Kbytes/sec] received
-                        2763.29 kb/s sent
-                        2791.87 kb/s total
+Requests per second:    763.50 [#/sec] (mean)
+Time per request:       13.098 [ms] (mean)
+Time per request:       1.310 [ms] (mean, across all concurrent requests)
+Transfer rate:          28.33 [Kbytes/sec] received
+                        2739.36 kb/s sent
+                        2767.69 kb/s total
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.2      0       1
-Processing:     0    1   0.7      1      11
-Waiting:        0    1   0.7      1      11
-Total:          0    1   0.7      1      11
+Connect:        0    0   0.4      0      10
+Processing:     0   13   7.4     11      55
+Waiting:        0   13   7.4     11      55
+Total:          1   13   7.4     12      55
 
 Percentage of the requests served within a certain time (ms)
-  50%      1
-  66%      1
-  75%      1
-  80%      1
-  90%      1
-  95%      2
-  98%      3
-  99%      5
- 100%     11 (longest request)
+  50%     12
+  66%     15
+  75%     17
+  80%     18
+  90%     22
+  95%     27
+  98%     33
+  99%     37
+ 100%     55 (longest request)
