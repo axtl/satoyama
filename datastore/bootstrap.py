@@ -3,6 +3,8 @@ from datetime import datetime
 import redis
 import sys
 
+WITH_LOREM = True
+
 BODY = "Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur \
     vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, \
     ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad \
@@ -73,6 +75,10 @@ COMM = "Mauris iaculis porttitor posuere. Praesent id metus massa, ut \
     viverra auctor lobortis. Pellentesque eu est a nulla placerat \
     dignissim. Morbi a enim in magna semper bibendum. Etiam scelerisque, \
     nunc."
+
+
+BODY = "The answer is 42" if not WITH_LOREM
+COMM = "I don't agree!" if not WITH_LOREM
 
 
 def main(argv):
