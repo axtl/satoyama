@@ -2,15 +2,10 @@
 # Project:   Shokaku
 # Copyright: ©2011 alexandru
 # ==========================================================================
-# globals Shokaku
 
-# @namespace
-#
 #  Front-end for Naka, a simplistic web board.
-#
-#  @extends SC.Object
+
 this.Shokaku = SC.Application.create
-# @scope Shokaku.prototype
     NAMESPACE: 'Shokaku'
     VERSION: '0.1.0'
 
