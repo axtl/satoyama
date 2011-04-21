@@ -14,5 +14,6 @@ Shokaku.Post.FIXTURES = [
         "numc": 0
         "post_body": "GUNS"
         "post_title": "GOLD"
+        "comm_list": [1, 2]
     }
 ]

@@ -12,9 +12,9 @@ Shokaku.mainPage = SC.Page.design
             dividerThickness: 5
             layoutDirection: SC.LAYOUT_HORIZONTAL
             autoresizeBehavior: SC.RESIZE_TOP_LEFT
-            topLeftMinThickness: 320
-            topLeftMaxThickness: 720
-            contentView: SC.ListView.design({})
+            topLeftMinThickness: 240
+            bottomRightMinThickness: 720
+            # contentView: SC.ListView.design({})
 
             # Left side shows a list of posts
             topLeftView: SC.ScrollView.design
@@ -31,36 +31,76 @@ Shokaku.mainPage = SC.Page.design
                     canDeleteContent: YES
 
             dividerView: SC.SplitDividerView.design({})
-
-            # Right side shows a form to create a new post
-            bottomRightView: SC.View.design
+            
+            # another split pane to show all/individual comments
+            bottomRightView: SC.SplitView.design
                 layout: {top: 48, right: 0, bottom: 36, left: 320}
-                childViews: 'header tLabel bLabel tText bText'.w()
-                # childViews: 'header tLabel bLabel tText bText addB title'.w()
+                defaultThickness: 0.5
+                dividerThickness: 2.5
+                layoutDirection: SC.LAYOUT_VERTICAL
+                autoresizeBehavior: SC.RESIZE_TOP
+                topLeftMinThickness: 240
+                bottomRightMinThickness: 360
 
-                header: SC.LabelView.design
-                    layout: {top: 24, left: 24, right: 24}
-                    value: 'Add a new post'
+                topLeftView: SC.ScrollView.design
+                    hasHorizontalScroller: NO
+                    layout: {top: 48, right: 0, height: 408, left: 320}
 
-                tLabel: SC.LabelView.design
-                    layout: {top: 72, left: 24, width: 48, right: 24}
-                    value: 'Title'
+                    contentView: SC.LabelView.design
+                        layout: {top: 24, right: 24, left: 24}
+                        valueBinding: 'Shokaku.postController.post_body'
 
-                bLabel: SC.LabelView.design
-                    layout: {top: 96, left: 24, width: 48, right: 24}
-                    value: 'Body'
+                dividerView: SC.SplitDividerView.design({})
 
-                tText: SC.TextFieldView.design
-                    layout: {top: 72, left: 96, width: 300, height: 20}
-                    hint: 'Post Title'.loc()
-                    isTextArea: NO
-                    valueBinding: 'Shokaku.postController.post_title'
+                bottomRightView: SC.ListView.design
+                    hasHorizontalScroller: NO
+                    layout: {top: 408, right: 0, height: 360, left: 320}
 
-                bText: SC.TextFieldView.design
-                    layout: {top: 96, left: 96, width: 300, height: 110}
-                    hint: 'Post Body'.loc()
-                    isTextArea: YES
-                    valueBinding: 'Shokaku.postController.post_body'
+                    contentView: SC.LabelView.design
+                        layout: {top: 144, right: 24, left: 24}
+                        contentBinding: 'Shokaku.commsController.arrangedObjects'
+                        selectionBinding: 'Shokaku.commsController.selection'
+                        contentValueKey: 'comm_body'
+                        rowHeight: 24
+                        canEditContent: YES
+                        canDeleteContent: YES
+
+
+            # # Right side shows a form to create a new post
+            # bottomRightView: SC.View.design
+            #     layout: {top: 48, right: 0, bottom: 36, left: 320}
+            #     childViews: 'header tLabel bLabel tText bText addB'.w()
+            #
+            #     header: SC.LabelView.design
+            #         layout: {top: 24, left: 24, right: 24}
+            #         value: 'Add a new post'
+            #
+            #     tLabel: SC.LabelView.design
+            #         layout: {top: 72, left: 24, width: 48, right: 24}
+            #         value: 'Title'
+            #
+            #     bLabel: SC.LabelView.design
+            #         layout: {top: 96, left: 24, width: 48, right: 24}
+            #         value: 'Body'
+            #
+            #     tText: SC.TextFieldView.design
+            #         layout: {top: 72, left: 72, width: 360, height: 20}
+            #         hint: 'Post Title'.loc()
+            #         isTextArea: NO
+            #         # valueBinding: 'Shokaku.postsController.post_title'
+            #
+            #     bText: SC.TextFieldView.design
+            #         layout: {top: 96, left: 72, width: 360, height: 110}
+            #         hint: 'Post Body'.loc()
+            #         isTextArea: YES
+            #         # valueBinding: 'Shokaku.postsController.post_body'
+            #
+            #     addB: SC.ButtonView.design
+            #         layout: {bottom: 24, right: 48, width: 96, height: 24}
+            #         title: 'Add Post'.loc()
+            #         isDefault: YES
+            #         target: 'Shokaku.postsController'
+            #         action: 'addPost'
 
         bottomView: SC.ToolbarView.design
           layout: {bottom: 0, left: 0, right: 0, height: 32 }
