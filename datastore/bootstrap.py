@@ -5,7 +5,7 @@ import sys
 
 WITH_LOREM = True
 
-BODY = "Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur \
+LBODY = "Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur \
     vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, \
     ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad \
     litora torquent per conubia nostra, per inceptos himenaeos. Sed molestie \
@@ -54,7 +54,7 @@ BODY = "Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur \
     orci. Suspendisse potenti. Suspendisse potenti. Aliquam erat volutpat. \
     Sed posuere dignissim odio, nec cursus."
 
-COMM = "Mauris iaculis porttitor posuere. Praesent id metus massa, ut \
+LCOMM = "Mauris iaculis porttitor posuere. Praesent id metus massa, ut \
     blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim \
     congue. Donec congue lacinia dui, a porttitor lectus condimentum \
     laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus \
@@ -77,8 +77,8 @@ COMM = "Mauris iaculis porttitor posuere. Praesent id metus massa, ut \
     nunc."
 
 
-BODY = "The answer is 42" if not WITH_LOREM
-COMM = "I don't agree!" if not WITH_LOREM
+BODY = "The answer is 42" if not WITH_LOREM else LBODY
+COMM = "I don't agree!" if not WITH_LOREM else LCOMM
 
 
 def main(argv):
@@ -106,16 +106,18 @@ def main(argv):
         # post title
         r[post(npid, 'post_title')] = 'TITLE: %s' % npid
         # post body
-        r[post(npid, 'post_body')] = '%s LOREM\n%s' % (npid, BODY)
+        r[post(npid, 'post_body')] = '%s' % BODY
         # post date
         r[post(npid, 'post_date')] = datetime.utcnow()
-        # increment per-post comment counter
-        ncid = r.incr(post(npid, 'next.comm.id'))
-        # store in the per-post list of active comments
-        r.lpush(post(npid, 'comm.list'), ncid)
-        # and store the post
-        r[comm(npid, ncid)] = 'POST %s COMM %s\n%s' % (npid, ncid, COMM)
-        r[comm(npid, ncid) + ':comm_date'] = datetime.utcnow()
+        # store 5 comments
+        for i in xrange(5):
+            # increment per-post comment counter
+            ncid = r.incr(post(npid, 'next.comm.id'))
+            # store in the per-post list of active comments
+            r.lpush(post(npid, 'comm.list'), ncid)
+            # and store the post
+            r[comm(npid, ncid)] = '%s' % COMM
+            r[comm(npid, ncid) + ':comm_date'] = datetime.utcnow()
 
 if __name__ == '__main__':
     main(sys.argv)
