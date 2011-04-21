@@ -1,0 +1,1 @@
+Shokaku.postsController = SC.ArrayController.create({})

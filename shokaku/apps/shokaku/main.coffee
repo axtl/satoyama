@@ -11,6 +11,8 @@ Shokaku.main = ->
         # TODO: Set the content property on your primary controller
         # ex: Shokaku.contactsController.set('content', Shokaku.contacts);
         # Shokaku.rootController.populate();
+        posts = Shokaku.store.find(Shokaku.Post)
+        Shokaku.postsController.set 'content', posts
 
 window.main = ->
     Shokaku.main()
