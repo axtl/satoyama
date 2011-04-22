@@ -1,1 +1,34 @@
 \section{\label{sec:eval}Evaluation}
+
+Due to the non-relational nature of how the application stores its data~\ref{sec:impl:redis}, the time required to access a list of comments is the same as the time required to access a list of posts. For that reason, the evaluation only looks at creating and retrieving posts via the API.
+
+Apache \textbf{ab}~\cite{ab} was used to drive the test harness against each of the two servers. HTTP \textbf{GET} and \textbf{POST} functionalities were tested, starting from an empty datastore. Table~\ref{tab:eval} documents the values obtained from testing against the servers, in two scenarios:
+
+\begin{itemize}
+    \item \textbf{Short} used a 52-byte text for each created post, in order to determine the maximum number of requests that the servers can sustain
+    \item \textbf{Lorem} used a 3.4 kB text for each of the created posts, in order to better simulate real-life use of such an application
+\end{itemize}
+
+\begin{table*}
+    \centering
+    % \begin{tabular}{l p{1.15in} p{1.15in} p{1.15in} p{1in}}
+    \begin{tabular}{l*{8}c}
+        \toprule
+        \multicolumn{1}{c}{\textbf{Server}} & \multicolumn{6}{c}{\textbf{GET}} & \multicolumn{2}{c}{\textbf{POST}} \\
+        \cmidrule{2-9}
+        & \multicolumn{2}{c}{100-all} & \multicolumn{2}{c}{100-single} & \multicolumn{2}{c}{1000-single} & \multicolumn{2}{c}{1000} \\
+        & S & L & S & L & S & L & S & L \\ 
+        \midrule
+        \emph{Naka} & 4.83 & 4.96 & 838.08 & 413.71 & 720.86 & 673.97 & 534.58 & 763.50 \\
+        \emph{Warusawa} & 2.85 & 2.96 & 99.45 & 113.24 & 142.75 & 137.62 & 142.88 & 123.82 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Average number of successful requests/second}
+    \caption*
+        \begin{tabular}{l l}
+            \emph{100-all} & retrieve \texttt{/posts/} 100 times \\
+            \emph{100-single} & retrieve \texttt{/posts/123/} 100 times \\
+            \emph{1000-single} & retrieve \texttt{/posts/234/} 1000 times \\
+        \end{tabular}
+    \label{tab:eval}
+\end{table*}

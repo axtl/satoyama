@@ -1,15 +1,15 @@
 \section{\label{sec:impl}Implementation}
 
-Two server and two client applications were built for this experiment. One of the pairs is built entirely in JavaScript, using \textbf{node.js}~\cite{node} and \textbf{SproutCore}~\cite{sprout} for the server and client components, respectively. The other pair uses a Python back-end, powered by the \textbf{web.py}~\cite{webpy} framework, and a pure HTML front-end. A JSON~\cite{rfc4627} REST API is used for data interchange between and clients. Due to the design of the clients, the JavaScript front-end operates in a manner similar to~\cite{flyhtml}. Table~\ref{tab:comps} lists all the components, their names and functions. Redis~\cite{redis} is used as the data store, as it provides a simple key-value interface that is more than sufficient for the given test scenario.
+Two server and two client applications were built for this experiment. One of the pairs is built entirely in JavaScript, using \textbf{node.js}~\cite{node} and \textbf{SproutCore}~\cite{sprout} for the server and client components, respectively. The other pair uses a Python back-end, powered by the \textbf{web.py}~\cite{webpy} framework. This backend generates a pure HTML front-end using the \textbf{Mustache}~\cite{mustache} server side template language. A JSON~\cite{rfc4627} REST API is used for data interchange between and clients. Due to the design of the clients, the JavaScript front-end operates in a manner similar to~\cite{flyhtml}. Table~\ref{tab:comps} lists all the components, their names and functions. http://mustache.github.com/~\cite{redis} is used as the data store, as it provides a simple key-value interface that is more than sufficient for the given test scenario.
 
 \begin{table}
     \begin{center}
         \begin{tabular}{l c c}
             \toprule
-            & \textbf{JavaScript} & \textbf{Python/HTML} \\
+            & \textbf{JavaScript} & \textbf{Python} \\
             \midrule
             \textbf{Server} & Naka & Warusawa \\
-            \textbf{Client} & Sh\={o}kaku & Hiry\={u}\\
+            \textbf{Client} & Sh\={o}kaku & - \\
             \bottomrule
         \end{tabular}
         \caption{Server and client components. The first character in each name serves as a mnemonic for the underlying technology, \emph{e.g.} \textbf{N}aka for \textbf{n}ode.js, \textbf{W}arusawa for \textbf{w}eb.py}
@@ -19,6 +19,24 @@ Two server and two client applications were built for this experiment. One of th
 
 \subsection{\label{sec:impl:js}JavaScript}
 
-\subsection{\label{sec:impl:pyhtml}Python \& HTML}
+\subsection{\label{sec:impl:pyhtml}Python}
 
 \subsection{\label{sec:impl:redis}Redis}
+
+Redis is a high-performance key-value store~\cite{lerner2010}. As it does not operate with a schema (the way a relational database does), the logic of relationships between components must be addressed in the application that uses it, but this tradeoff is made for very fast access times on the keys. In the sample application considered in this paper, a simple keying structure was adopted, as exemplified in Table~\ref{tab:keys}.
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{l l}
+            \toprule
+            \textbf{Key} & \textbf{Value} \\
+            \midrule
+            posts:\textbf{pid}:post\_title & Post title \\
+            posts:\textbf{pid}:post\_body & Post body \\
+            posts:\textbf{pid}:comm:\textbf{cid} & Comment body \\
+            \bottomrule
+        \end{tabular}
+        \caption{A selection of keys and their respective values used in the datastore. The \textbf{pid} and \textbf{cid} give the IDs of the respective resources.}
+        \label{tab:keys}
+    \end{center}
+\end{table}

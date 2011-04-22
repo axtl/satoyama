@@ -2,7 +2,7 @@
 
 To adequately compare an end-to-end JavaScript solution to a more traditional implementation, two versions of the same application must be built. In order for testing to be as meaningful as possible, the application will be kept minimal in terms of features, and will avoid certain kinds of complexity that will only add overhead in implementation, but provide little additional value for the stated goal of this experiment.
 
-A post-and-comment type of system is a straightforward application to consider. Any number of posts can be created, and each post has any number of (flat) comments/replies as children. This model can be easily extended to a peer review site, message board or blogging platform, where the basic interaction is the same. User signup and authentication are not considered, as they only increases complexity without providing an interesting evaluation target --- neither are frequent operations.
+A post-and-comment type of system is a straightforward application to consider. Any number of posts can be created, and each post has any number of (flat) comments as children. This model can be easily extended to many other application domains, such as a peer review site, a message board or a blogging platform, where the basic interaction is the same. User signup and authentication are not considered, as they only increases complexity without providing an interesting evaluation target --- neither of these two are frequent operations.
 
 \subsection{\label{sec:arch:API}API}
 
