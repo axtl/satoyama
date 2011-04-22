@@ -1,17 +1,5 @@
 \section{\label{sec:arch}Architecture}
 
-To adequately compare an end-to-end JavaScript solution to a more traditional implementation, two versions of the same application must be built. In order for testing to be as meaningful as possible, the application will be kept minimal in terms of features, and will avoid certain kinds of complexity that will only add overhead in implementation, but provide little additional value for the stated goal of this experiment.
-
-A post-and-comment type of system is a straightforward application to consider. Any number of posts can be created, and each post has any number of (flat) comments as children. This model can be easily extended to many other application domains, such as a peer review site, a message board or a blogging platform, where the basic interaction is the same. User signup and authentication are not considered, as they only increases complexity without providing an interesting evaluation target --- neither of these two are frequent operations.
-
-\subsection{\label{sec:arch:API}API}
-
-Web applications can greatly benefit from the availability of an Application Programming Interface (API). When some or most of the functionality is exposed programmatically, other services can integrate and extend the application in novel ways. An API is also helpful to the original developers, as native applications, or mobile-optimized clients, can be built on top of it.
-
-While simple, the sample application built for this study can benefit from an API. With two clients and two servers, an API is the easiest way to mix and match components. An API also helps ensure feature parity between the two version of the application, and thus helps ensure the comparison is fair.
-
-It turns out that, from the multitude of existing approaches to building software APIs, one in particular suits web applications: Representational State Transfer~\cite{restful} (REST). This model leverages existing HTTP verbs~\cite{rfc2616} and encourages the use of meaningful URIs that are as adequate for human consumption as they are for programatic access. REST also fits well with the proposed application, as posts and comments neatly map to \emph{Resources}. Table~\ref{tab:api} lists the API. The combination of a HTTP verb and an URI immediately informs what the action will be --- this is one of the main benefits of using REST for API design. However, as \texttt{PUT} is neither universally supported by servers, nor does it provide --- in this sample application at least --- functionality that cannot be achieved via \texttt{POST}, it has not been implemented.
-
 \begin{table*}
     \centering
     % \begin{tabular}{l p{1.15in} p{1.15in} p{1.15in} p{1in}}
@@ -30,3 +18,17 @@ It turns out that, from the multitude of existing approaches to building softwar
     \caption{API methods}
     \label{tab:api}
 \end{table*}
+
+
+To adequately compare an end-to-end JavaScript solution to a more traditional implementation, two versions of the same application must be built. In order for testing to be as meaningful as possible, the application will be kept minimal in terms of features, and will avoid certain kinds of complexity that will only add overhead in implementation, but provide little additional value for the stated goal of this experiment.
+
+A post-and-comment type of system is a straightforward application to consider. Any number of posts can be created, and each post has any number of (flat) comments as children. This model can be easily extended to many other application domains, such as a peer review site, a message board or a blogging platform, where the basic interaction is the same. User signup and authentication are not considered, as they only increases complexity without providing an interesting evaluation target --- neither of these two are frequent operations.
+
+\subsection{\label{sec:arch:API}API}
+
+Web applications can greatly benefit from the availability of an Application Programming Interface (API). When some or most of the functionality is exposed programmatically, other services can integrate and extend the application in novel ways. An API is also helpful to the original developers, as native applications, or mobile-optimized clients, can be built on top of it.
+
+While simple, the sample application built for this study can benefit from an API. With two clients and two servers, an API is the easiest way to mix and match components. An API also helps ensure feature parity between the two version of the application, and thus helps ensure the comparison is fair.
+
+It turns out that, from the multitude of existing approaches to building software APIs, one in particular suits web applications: Representational State Transfer~\cite{restful} (REST). This model leverages existing HTTP verbs~\cite{rfc2616} and encourages the use of meaningful URIs that are as adequate for human consumption as they are for programatic access. REST also fits well with the proposed application, as posts and comments neatly map to \emph{Resources}. Table~\ref{tab:api} lists the API. The combination of a HTTP verb and an URI immediately informs what the action will be --- this is one of the main benefits of using REST for API design. However, as \texttt{PUT} is neither universally supported by servers, nor does it provide --- in this sample application at least --- functionality that cannot be achieved via \texttt{POST}, it has not been implemented.
+

@@ -1,1 +1,5 @@
 \section{\label{sec:fw}Future Work}
+
+A few refinements to the implementation would benefit further testing and data collection. The asynchronous nature of interacting with the datastore in Node.js should be replicated, as much as possible, for use with the Python server, to observe to what extent it affects response times. Collecting data to observe to what extent HTML generation would slow down the servers (and, for that, implementing HTML generation for the Node.js server as well) may also be interesting, if only to help solidify Node.js' lead. Such a test was outside the current scope.
+
+As mentioned, other server-side JavaScripts engines exist. Comparing them against Node.js may also be of interest to determine to what extent the significant speed gains observed are due to V8.

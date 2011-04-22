@@ -1,6 +1,12 @@
 \section{\label{sec:impl}Implementation}
 
-Two server and two client applications were built for this experiment. One of the pairs is built entirely in JavaScript, using \textbf{node.js}~\cite{node} and \textbf{SproutCore}~\cite{sprout} for the server and client components, respectively. The other pair uses a Python back-end, powered by the \textbf{web.py}~\cite{webpy} framework. This backend generates a pure HTML front-end using the \textbf{Mustache}~\cite{mustache} server side template language. A JSON~\cite{rfc4627} REST API is used for data interchange between and clients. Due to the design of the clients, the JavaScript front-end operates in a manner similar to~\cite{flyhtml}. Table~\ref{tab:comps} lists all the components, their names and functions. http://mustache.github.com/~\cite{redis} is used as the data store, as it provides a simple key-value interface that is more than sufficient for the given test scenario.
+Two server and two client applications were built for this experiment. One of the pairs is built entirely in JavaScript, using \textbf{node.js}~\cite{node} and \textbf{SproutCore}~\cite{sprout} for the server and client components, respectively. The other pair uses a Python back-end, powered by the \textbf{web.py}~\cite{webpy} framework. This backend generates a pure HTML front-end using the \textbf{Mustache}~\cite{mustache} server side template language. A JSON~\cite{rfc4627} REST API is used for data interchange between and clients. Due to the design of the clients, the JavaScript front-end operates in a manner similar to~\cite{flyhtml}. Table~\ref{tab:comps} lists all the components, their names and functions. Redis~\cite{redis} is used as the data store, as it provides a simple key-value interface that is more than sufficient for the given test scenario.
+
+\subsection{\label{sec:impl:pyhtml}Python}
+
+In order to mimic Node.js' event-driven architecture, the Python implementation was built using the \textbf{gevent}~\cite{gevent} suite. Gevent works by patching a number of Python system libraries to use a non-blocking model, and can be used with web.py easily. Unlike the JavaScript implementation, the callback-heavy approach is not used here; the principal area where events benefit the server are in the form of request handling, where more requests per second can be handled. Interactions with the data store are synchronous, unlike in the JavaScript implementation. Depending on the \texttt{Accept} header presented by the client, the Python web server can either respond with HTML or JSON.
+
+The Python server implementation weighs in at 463 lines of commented code, without considering web.py, the templates and other libraries.
 
 \begin{table}
     \begin{center}
@@ -19,7 +25,13 @@ Two server and two client applications were built for this experiment. One of th
 
 \subsection{\label{sec:impl:js}JavaScript}
 
-\subsection{\label{sec:impl:pyhtml}Python}
+Node.js is an asynchronous, event-driven web server, which lends itself to a callback-heavy development style. One main advantage of the near ubiquitous asynchronicity is the ability to quickly return to the client before some operations complete, notably \textbf{PUT}s and \textbf{DELETE}s.
+
+The Node.js server only responds using JSON, although this is not a limitation of the architecture. In keeping with the end-to-end JavaScript implementation model, an HTML version was not required.
+
+All JavaScript code was written in CoffeeScript~\cite{coffee}, a language that compiles into JavaScript. The syntax adopted by CoffeeScript is less verbose than javaScript and more similar in style and features to Python and Ruby, both of which were thought to be significant improvements over the standard version of the JavaScript when the decision was made.
+
+The JavaScript server implementation weighs in at 365 lines of commented code.
 
 \subsection{\label{sec:impl:redis}Redis}
 
