@@ -9,7 +9,6 @@ To compare end-to-end JavaScript applications, and 'traditional' client-server l
 The *sato-* (plains) are the client components / front-ends:
 
 * Shōkaku: SproutCore ('flying crane', inspired by the 'flying template' paper)
-* Hiryū: HTML ('flying dragon')
 
 The *-yama* (mountains) are the server components / back-ends:
 
@@ -33,6 +32,10 @@ The simple [REST API](/totolici/satoyama/blob/master/API.md)
     * [redis-node](https://github.com/bnoguchi/redis-node)
 * [SproutCore](http://www.sproutcore.com/)
 * [Redis](http://redis.io)
+
+## Notes ##
+
+This was prepared as a course project, and no edits after the due date have been made. It's not meant for any production use, at most it can be seen as a showcase of a number of different technologies (as I was learning them.)
 
 #### (c) alexandru totolici ####
 ##### UBC CPSC 507 Term Project Jan-Apr 2011 #####
